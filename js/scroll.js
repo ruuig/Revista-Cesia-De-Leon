@@ -34,12 +34,14 @@ const groups=new Map();
 $$('.sa-i').forEach(el=>{ const p=el.parentElement; const n=groups.get(p)||0; el.style.setProperty('--d',Math.min(n,8)*55+'ms'); groups.set(p,n+1); });
 
 if(!reduce&&'IntersectionObserver' in window){
+  /* fuera de la vista esperan ocultos: así nunca se ven, se apagan y vuelven (parpadeo) */
+  document.documentElement.classList.add('sa-on');
   /* Se mide contra lo que de verdad desplaza: la pantalla en modo web y la
      propia hoja en modo revista. Para quitar la animación hay que alejarse
      160px; así el empujón de la animación nunca lo saca y no parpadea. */
   const obs=new Map();
   const pair=root=>{ let p=obs.get(root); if(p) return p;
-    p={ enter:new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('in'); }),{root,rootMargin:'0px 0px -6% 0px'}),
+    p={ enter:new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('in'); }),{root,rootMargin:'0px 0px -3% 0px'}),
         leave:new IntersectionObserver(es=>es.forEach(en=>{ if(!en.isIntersecting) en.target.classList.remove('in'); }),{root,rootMargin:'160px 0px 160px 0px'}) };
     obs.set(root,p); return p; };
   const watch=el=>{ const p=pair(el.closest('.face.front')||null); p.enter.observe(el); p.leave.observe(el); };
