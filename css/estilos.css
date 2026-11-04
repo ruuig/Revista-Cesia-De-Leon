@@ -613,7 +613,6 @@ body.paged #webview .pg{min-height:calc(100vh - var(--bar-h))}
 
 /* ---- hoja que se dobla: la geometría la calcula JS ---- */
 .leaf{transition:none!important}
-.book,.face.front{touch-action:pan-y}
 .bk-wrap{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
 .bk-wrap>.face{pointer-events:auto}
 .leaf.folding{transform:none!important}
@@ -636,3 +635,20 @@ body.paged #webview .pg{min-height:calc(100vh - var(--bar-h))}
 /* ---- 5-4-3-2-1: video antes del juego ---- */
 .g54-video{display:flex;flex-direction:column;gap:10px;padding-bottom:6px;border-bottom:2px dashed var(--line)}
 .g54-go{font-family:var(--f-hand);font-size:24px;line-height:1;color:var(--acc,var(--rose-d));margin-top:4px}
+
+/* ---- modo revista optimizado: sin 3D (el doblez es 2D) ---- */
+.leaves{perspective:none!important}
+.leaf,.bk-wrap{transform-style:flat!important;transform:none!important}
+.leaf .face{backface-visibility:visible!important;-webkit-backface-visibility:visible!important}
+.leaf .face.back{transform:translateX(-100%);visibility:hidden}
+.leaf.flipped .face.back{visibility:visible}
+.leaf.flipped .face.front{visibility:hidden}
+.leaf.folding .face.front{visibility:visible}
+.leaf.folding .face.back{visibility:visible;transform-origin:0 0}
+.face.front{overscroll-behavior:contain;contain:paint}
+.leaf.far{visibility:hidden}
+.leaf.far .face{content-visibility:hidden}
+.leaf.far *{animation-play-state:paused!important}
+
+/* ---- solo modo revista: sin selector Web/Revista ---- */
+.bar .seg{display:none}

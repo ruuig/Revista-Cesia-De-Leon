@@ -52,7 +52,7 @@ function setMode(m){
   $$('.seg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===m)));
   if(m==='flip'){ cur=currentWebIndex(); buildBook(); window.scrollTo(0,0); maybeTip(); }
   else { sections.forEach(s=>web.appendChild(s)); leavesWrap.innerHTML=''; leaves=[]; requestAnimationFrame(()=>{ if(window.Pulso&&window.Pulso.showSection) window.Pulso.showSection(cur,true); else sections[cur].scrollIntoView({block:'start'}); webLive(); lastSec=-1; onScrollFx(); }); }
-  store.set('pulso-mode',m);
+  
   try{ history.replaceState(null,'',m==='flip'?'#revista':'#web'); }catch(e){}
   updateProgress();
 }
@@ -176,11 +176,13 @@ function animFold(l,from,to,cy,dur,fn,delay,arc,done){
   };
   st.raf=requestAnimationFrame(step); folds.set(l,st);
 }
-function renderBookZ(){ leaves.forEach((l,i)=>{ if(!folds.has(l)&&!l._P) l.style.zIndex=(i<cur? i+1 : 2*N-i); }); }
+function setFar(lo,hi){ leaves.forEach((l,i)=>l.classList.toggle('far',i<lo||i>hi)); }
+function renderBookZ(){ leaves.forEach((l,i)=>{ if(!folds.has(l)&&!l._P) l.style.zIndex=(i<cur? i+1 : 2*N-i); }); if(!folds.size&&!drag) setFar(cur-2,cur+1); }
 function renderBook(instant){
   const fwd=cur>lastCur; const a=Math.min(lastCur,cur), b=Math.max(lastCur,cur);
   const moving=[]; for(let i=a;i<b;i++) moving.push(i);
   if(!fwd) moving.reverse();
+  setFar(Math.min(lastCur,cur)-2,Math.max(lastCur,cur)+1);
   leaves.forEach((l,i)=>{
     l.classList.toggle('flipped',i<cur);
     if(instant){ cancelFold(l); clearFold(l); }
@@ -218,61 +220,77 @@ document.addEventListener('keydown',e=>{
   if(e.target.matches&&e.target.matches('input')) return;
   if(e.key==='ArrowRight') go(cur+1); if(e.key==='ArrowLeft') go(cur-1);
 });
-/* ---- arrastrar la esquina (dedo en toda la hoja; ratón desde las esquinas) ---- */
+/* ---- arrastrar la esquina: dedo (touch, pasivo) o ratón desde las esquinas ---- */
 let drag=null;
 const CZ=()=>Math.min(110,pageSize()[0]*.28);
-book.addEventListener('pointerdown',e=>{
-  if(mode!=='flip'||e.button>0||e.target.closest('[data-noswipe]')) return;
-  const r=leavesWrap.getBoundingClientRect(), W=r.width, H=r.height, x=e.clientX-r.left, y=e.clientY-r.top;
-  const mouse=e.pointerType==='mouse'; let dir=0;
-  if(mouse){
-    const z=CZ(), nearY=y<z||y>H-z;
-    if(nearY&&x>W-z&&x<=W+6) dir=1; else if(nearY&&x<-W+z&&x>=-W-6) dir=-1;
-    if(!dir) return;
-  }
-  drag={id:e.pointerId,sx:e.clientX,sy:e.clientY,x,y,W,H,mouse,dir,started:false,leaf:null};
-});
-function startDrag(e){
+function newDrag(x0,y0,mouse,dir,id){
+  const r=leavesWrap.getBoundingClientRect();
+  return {id,sx:x0,sy:y0,x:x0-r.left,y:y0-r.top,W:r.width,H:r.height,mouse,dir,started:false,leaf:null,lock:null};
+}
+function startDrag(){
   const d=drag, i=d.dir>0?cur:cur-1;
   if(i<0||i>=N||(d.dir>0&&cur>=N-1)){ drag=null; return false; }
   const l=leaves[i]; cancelFold(l); l.style.zIndex=600; l.classList.add('turning');
   d.leaf=l; d.started=true; d.cy=d.y<d.H/2?0:d.H;
-  d.P0=l._peek&&l._P?[...l._P]:(d.dir>0?[d.W,d.cy]:[-d.W,d.cy]); l._peek=false;
-  if(d.mouse) d.P0=[d.dir>0?d.x:d.x,d.y];
-  try{ book.setPointerCapture(e.pointerId); }catch(_){}
+  d.P0=d.mouse?[d.x,d.y]:(l._peek&&l._P?[...l._P]:(d.dir>0?[d.W,d.cy]:[-d.W,d.cy]));
+  l._peek=false; setFar(Math.min(cur,i)-2,Math.max(cur,i)+1);
   return true;
 }
-window.addEventListener('pointermove',e=>{
-  if(!drag||e.pointerId!==drag.id){ hoverPeek(e); return; }
-  const d=drag, dx=e.clientX-d.sx, dy=e.clientY-d.sy;
+/* devuelve true si el gesto es de pasar página (y no de bajar) */
+function moveDrag(X,Y){
+  const d=drag; if(!d) return false;
+  const dx=X-d.sx, dy=Y-d.sy;
   if(!d.started){
     if(!d.mouse){
-      if(Math.abs(dx)<10||Math.abs(dx)<Math.abs(dy)*1.2){ if(Math.abs(dy)>14) drag=null; return; }
+      /* se decide una sola vez: si primero se mueve en vertical, es scroll y se suelta */
+      if(!d.lock){ if(Math.abs(dx)<16&&Math.abs(dy)<10) return false;
+        d.lock=Math.abs(dx)>Math.abs(dy)*1.6&&Math.abs(dx)>=16?'h':'v'; }
+      if(d.lock==='v'){ drag=null; return false; }
       d.dir=dx<0?1:-1;
-    } else if(Math.hypot(dx,dy)<3) return;
-    if(!startDrag(e)) return;
+    } else if(Math.hypot(dx,dy)<3) return false;
+    if(!startDrag()) return false;
   }
-  /* con el dedo la esquina sube un poco al avanzar, como al agarrar papel */
   const prog=Math.min(1,Math.abs(dx)/(2*d.W));
   const lift=d.mouse?0:(d.cy?-1:1)*d.H*.14*Math.sin(prog*Math.PI);
-  const P=[d.P0[0]+dx*(d.mouse?1:1.15), d.P0[1]+(d.mouse?dy:dy*.5)+lift];
-  setFold(d.leaf,constrain(P,d.cy,d.W,d.H),d.cy);
-});
-function endDrag(e,cancel){
-  if(!drag||(e&&e.pointerId!==drag.id)) return; const d=drag; drag=null;
-  if(!d.started){
-    /* clic en la esquina con el ratón: pasa la página */
-    if(d.mouse&&!cancel) go(cur+d.dir);
-    return;
-  }
+  const P=[d.P0[0]+dx*(d.mouse?1:1.15), d.P0[1]+(d.mouse?dy:dy*.4)+lift];
+  const L=d.leaf;
+  if(!L._raf) L._raf=requestAnimationFrame(()=>{ L._raf=0; if(L._next) setFold(L,L._next,d.cy); });
+  L._next=constrain(P,d.cy,d.W,d.H);
+  return true;
+}
+function endDrag(cancel){
+  const d=drag; drag=null; if(!d) return;
+  if(!d.started){ if(d.mouse&&!cancel) go(cur+d.dir); return; }
   movedRecently=true; setTimeout(()=>movedRecently=false,350);
-  const l=d.leaf, P=l._P||d.P0;
-  const p=(d.W-P[0])/(2*d.W), prog=d.dir>0?p:1-p;
-  if(!cancel&&prog>.22){ cur=Math.max(0,Math.min(N-1,cur+d.dir)); renderBook(false); }
+  const l=d.leaf; if(l._raf){ cancelAnimationFrame(l._raf); l._raf=0; } if(l._next){ setFold(l,l._next,d.cy); l._next=null; }
+  const P=l._P||d.P0, p=(d.W-P[0])/(2*d.W), prog=d.dir>0?p:1-p;
+  if(!cancel&&prog>.2){ cur=Math.max(0,Math.min(N-1,cur+d.dir)); renderBook(false); }
   else animFold(l,P,d.dir>0?[d.W,d.cy]:[-d.W,d.cy],d.cy,Math.round(200+520*prog),ease.out,0,0,()=>{ clearFold(l); renderBookZ(); });
 }
-window.addEventListener('pointerup',e=>endDrag(e,false));
-window.addEventListener('pointercancel',e=>endDrag(e,true));
+/* dedo: eventos touch pasivos, así el scroll vertical nunca espera al JS */
+book.addEventListener('touchstart',e=>{
+  if(mode!=='flip'||e.touches.length>1||e.target.closest('[data-noswipe]')){ drag=null; return; }
+  const t=e.touches[0]; drag=newDrag(t.clientX,t.clientY,false,0,'touch');
+},{passive:true});
+book.addEventListener('touchmove',e=>{ if(drag&&!drag.mouse){ const t=e.touches[0]; moveDrag(t.clientX,t.clientY); } },{passive:true});
+book.addEventListener('touchend',()=>{ if(drag&&!drag.mouse) endDrag(false); },{passive:true});
+book.addEventListener('touchcancel',()=>{ if(drag&&!drag.mouse) endDrag(true); },{passive:true});
+/* ratón: solo desde las esquinas, para no estorbar al seleccionar o hacer clic */
+book.addEventListener('pointerdown',e=>{
+  if(e.pointerType!=='mouse'||mode!=='flip'||e.button>0||e.target.closest('[data-noswipe]')) return;
+  const r=leavesWrap.getBoundingClientRect(), W=r.width, H=r.height, x=e.clientX-r.left, y=e.clientY-r.top;
+  const z=CZ(), nearY=y<z||y>H-z; let dir=0;
+  if(nearY&&x>W-z&&x<=W+6) dir=1; else if(nearY&&x<-W+z&&x>=-W-6) dir=-1;
+  if(!dir) return;
+  drag=newDrag(e.clientX,e.clientY,true,dir,e.pointerId);
+  try{ book.setPointerCapture(e.pointerId); }catch(_){}
+});
+window.addEventListener('pointermove',e=>{
+  if(e.pointerType!=='mouse') return;
+  if(drag&&drag.mouse&&e.pointerId===drag.id) moveDrag(e.clientX,e.clientY); else hoverPeek(e);
+});
+window.addEventListener('pointerup',e=>{ if(drag&&drag.mouse&&e.pointerId===drag.id) endDrag(false); });
+window.addEventListener('pointercancel',e=>{ if(drag&&drag.mouse&&e.pointerId===drag.id) endDrag(true); });
 /* ---- con el ratón, la esquina se levanta un poquito al acercarse ---- */
 function hoverPeek(e){
   if(mode!=='flip'||e.pointerType!=='mouse'||drag||folds.size) return;
@@ -676,7 +694,7 @@ new MutationObserver(()=>{ if(brTxt.textContent.indexOf('Bien hecho')===0) confe
 window.Pulso={$,$$,esc,confetti,sections,reduce,mode:()=>mode};
 /* ---------- Arranque ---------- */
 document.body.dataset.mode='web';
-const startMode=location.hash==='#revista'?'flip':(location.hash==='#web'?'web':store.get('pulso-mode'));
-if(startMode==='flip'){ setMode('flip'); cur=0; lastCur=0; renderBook(true); }
+/* toda la revista se lee en modo revista (se quitó el modo web) */
+{ const k=sections.findIndex(s=>'#'+s.id===location.hash); setMode('flip'); cur=k>0?k:0; lastCur=cur; renderBook(true); }
 updateProgress();
 })();
