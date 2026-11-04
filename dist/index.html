@@ -1,0 +1,595 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Un respiro para tu mente</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caveat:wght@500;700&family=DM+Serif+Display&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/animaciones.css">
+
+<header class="bar">
+  <a class="logo" href="#portada" data-go="0">Un respiro <small>N.º 1</small></a>
+  <div class="seg" role="group" aria-label="Forma de lectura">
+    <button type="button" data-mode="web" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>Web</button>
+    <button type="button" data-mode="flip" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-1.5v14c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-14c-3-.5-6 0-8 1.5zM12 6v14"/></svg>Revista</button>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<main id="webview">
+
+<!-- ======================= PORTADA ======================= -->
+<section class="pg cover" id="portada" data-label="Portada">
+  <div class="pg-in">
+    <div class="cover-top"><span class="no">N.º 1</span><span>Noviembre 5 de 2026</span></div>
+    <div class="mast-wrap">
+      <h1 class="mast mast2" aria-label="Un respiro para tu mente"><span class="m1">Un respiro</span><span class="m2">para tu mente</span></h1>
+      <svg class="ecg" viewBox="0 0 400 48" preserveAspectRatio="none" aria-hidden="true"><path d="M0 24 C25 6 50 6 75 24 S125 42 150 24 S200 6 225 24 S275 42 300 24 S350 6 400 24"/></svg>
+      <p class="mast-sub hand">revista sobre lo que nos pasa por dentro</p>
+    </div>
+    <div class="author">
+      <span class="author-av" aria-hidden="true">CS</span>
+      <span class="author-txt"><small>Una revista de</small><b>Cesia Saraí De Leon Cardona</b></span>
+    </div>
+    <div class="cover-main">
+      <div class="cover-hd">
+        <span class="theme-lbl">Tema</span>
+        <h2 class="ans" aria-label="Ansiedad"><span style="--i:0">A</span><span style="--i:1">n</span><span style="--i:2">s</span><span style="--i:3">i</span><span style="--i:4">e</span><span style="--i:5">d</span><span style="--i:6">a</span><span style="--i:7">d</span></h2>
+        <p class="dek">Puede aparecer aunque <b>no haya ninguna amenaza enfrente</b>. Qué es, cómo se siente y qué hacer cuando el cerebro se adelanta.</p>
+      </div>
+      <div class="head-wrap">
+        <svg class="head" viewBox="0 0 420 470" role="img" aria-label="Perfil de una cabeza dividida en viñetas: cerebro, alerta, pensamientos enredados, una persona que se cubre la cara y un latido">
+          <defs>
+            <clipPath id="hclip"><path d="M110 470 L112 380 C60 340 30 270 32 200 C34 90 120 18 225 18 C320 18 372 80 376 160 C378 185 372 200 380 215 L404 262 C408 270 402 276 390 278 L392 292 C394 298 386 300 384 304 C390 310 390 318 382 322 C384 340 378 356 356 360 C330 364 300 362 290 372 L292 470 Z"/></clipPath>
+            <clipPath id="dclip"><rect x="172" y="192" width="246" height="166" rx="10"/></clipPath>
+            <pattern id="hdots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="#3B2A2E" opacity=".16"/></pattern>
+          </defs>
+          <path d="M110 470 L112 380 C60 340 30 270 32 200 C34 90 120 18 225 18 C320 18 372 80 376 160 C378 185 372 200 380 215 L404 262 C408 270 402 276 390 278 L392 292 C394 298 386 300 384 304 C390 310 390 318 382 322 C384 340 378 356 356 360 C330 364 300 362 290 372 L292 470 Z" fill="#FFFAF5"/>
+          <g clip-path="url(#hclip)">
+            <g class="hp tap" tabindex="0" role="button" aria-label="Viñeta del cerebro" data-t="La alarma está en el cerebro" data-d="La amígdala, una estructura del tamaño de una almendra, detecta el peligro y enciende la alarma antes de que la parte racional del cerebro termine de pensar. Por eso el susto llega primero y la explicación después. Más en la página 1.">
+              <rect x="20" y="10" width="190" height="170" rx="12" fill="#DCE9EF" stroke="#3B2A2E" stroke-width="4"/>
+              <rect x="20" y="10" width="190" height="170" rx="12" fill="url(#hdots)"/>
+              <path d="M80 110 C70 90 85 70 105 75 C110 60 135 58 145 72 C165 68 175 88 165 102 C175 118 160 135 142 130 C135 145 110 145 104 132 C85 138 72 125 80 110 Z" fill="#FFFAF5" stroke="#3B2A2E" stroke-width="3.5" stroke-linejoin="round"/>
+              <path d="M105 75 C100 90 115 95 110 110 M145 72 C135 85 150 95 140 108 M104 132 C112 120 125 125 128 112 M88 104 C96 100 100 108 96 116" fill="none" stroke="#3B2A2E" stroke-width="2.5" stroke-linecap="round"/>
+              <path class="zap" d="M150 40 l-8 16 h10 l-8 16" fill="none" stroke="#D4636B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <g class="hplus"><circle cx="186" cy="34" r="12" fill="#A3404A"/><path d="M180 34h12M186 28v12" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g>
+            </g>
+            <g class="hp tap" tabindex="0" role="button" aria-label="Viñeta de la alerta" data-t="Siempre en alerta" data-d="La ansiedad puede aparecer aunque no haya ninguna amenaza real enfrente. El cuerpo se pone en modo alerta por algo que podría pasar: un resultado, un mensaje, una conversación pendiente. Más en la página 2.">
+              <rect x="220" y="10" width="200" height="170" rx="12" fill="#FDC0C3" stroke="#3B2A2E" stroke-width="4"/>
+              <path d="M300 58 L358 162 L242 162 Z" fill="#FFFAF5" stroke="#3B2A2E" stroke-width="4" stroke-linejoin="round"/>
+              <g class="bang"><rect x="295" y="88" width="10" height="44" rx="5" fill="#3B2A2E"/><circle cx="300" cy="147" r="6.5" fill="#3B2A2E"/></g>
+              <g class="hplus"><circle cx="246" cy="34" r="12" fill="#A3404A"/><path d="M240 34h12M246 28v12" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g>
+            </g>
+            <g class="hp tap" tabindex="0" role="button" aria-label="Viñeta de los pensamientos" data-t="Pensamientos en bucle" data-d="¿Y si me quedo en blanco? ¿Y si se enoja? ¿Y si no me alcanza? La preocupación da vueltas sobre lo mismo y ocupa la memoria que necesitas para concentrarte o descansar.">
+              <rect x="20" y="190" width="142" height="170" rx="12" fill="#DCE8DA" stroke="#3B2A2E" stroke-width="4"/>
+              <circle cx="84" cy="236" r="24" fill="#FFFAF5" stroke="#3B2A2E" stroke-width="3"/>
+              <circle cx="128" cy="276" r="19" fill="#FFFAF5" stroke="#3B2A2E" stroke-width="3"/>
+              <circle cx="88" cy="312" r="22" fill="#FFFAF5" stroke="#3B2A2E" stroke-width="3"/>
+              <path class="scr" d="M72 236 c4 -14 20 -10 15 2 s-17 9 -12 -4 s18 -10 15 4 s-15 7 -11 -5" fill="none" stroke="#D4636B" stroke-width="2.6" stroke-linecap="round"/>
+              <path class="scr" d="M118 276 c3 -11 16 -8 12 2 s-13 7 -9 -3 s14 -8 12 3" fill="none" stroke="#D4636B" stroke-width="2.6" stroke-linecap="round"/>
+              <path class="scr" d="M76 312 c4 -13 19 -9 14 2 s-16 8 -11 -4 s17 -9 14 4" fill="none" stroke="#D4636B" stroke-width="2.6" stroke-linecap="round"/>
+            </g>
+            <g class="hp tap" tabindex="0" role="button" aria-label="Viñeta con la foto principal" data-img="img/hoodie.jpg" data-t="El cuerpo también habla" data-d="Taparse la cara, encoger los hombros, querer desaparecer un rato. La ansiedad cambia la postura, la respiración y hasta la forma de caminar. Muchas veces los demás la notan antes que uno mismo.">
+              <image class="duo" href="img/hoodie.jpg" x="172" y="192" width="246" height="166" preserveAspectRatio="xMidYMid slice" clip-path="url(#dclip)"/>
+              <rect x="172" y="192" width="246" height="166" rx="10" fill="#F8A3A0" style="mix-blend-mode:multiply"/>
+              <rect x="172" y="192" width="246" height="166" rx="10" fill="none" stroke="#3B2A2E" stroke-width="4"/>
+              <g class="hplus"><circle cx="198" cy="218" r="12" fill="#FFFAF5"/><path d="M192 218h12M198 212v12" stroke="#A3404A" stroke-width="3" stroke-linecap="round"/></g>
+            </g>
+            <g class="hp tap" tabindex="0" role="button" aria-label="Viñeta del latido" data-t="El corazón se acelera" data-d="La adrenalina acelera el corazón para mandar más sangre a los músculos. Es de lo primero que cambia cuando aparece la ansiedad, y también de lo primero que puedes bajar respirando. Pruébalo en la página 4.">
+              <rect x="20" y="370" width="400" height="110" rx="12" fill="#F5E5D3" stroke="#3B2A2E" stroke-width="4"/>
+              <path class="ecg2" d="M20 425 H120 L134 425 L146 395 L162 455 L176 425 H220 L230 410 L240 440 L248 425 H420" fill="none" stroke="#D4636B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </g>
+          <path d="M110 470 L112 380 C60 340 30 270 32 200 C34 90 120 18 225 18 C320 18 372 80 376 160 C378 185 372 200 380 215 L404 262 C408 270 402 276 390 278 L392 292 C394 298 386 300 384 304 C390 310 390 318 382 322 C384 340 378 356 356 360 C330 364 300 362 290 372 L292 470 Z" fill="none" stroke="#3B2A2E" stroke-width="6" stroke-linejoin="round"/>
+        </svg>
+        <svg class="cloud tap" viewBox="0 0 170 124" tabindex="0" role="button" aria-label="Nube de pensamiento" data-t="Un nudo de pensamientos" data-d="Así se siente por dentro: muchas ideas enredadas al mismo tiempo. Escribirlas en papel, una por línea, ayuda a desenredarlas. Hay más herramientas en las páginas 4 y 5.">
+          <path d="M38 92 C12 92 8 60 32 56 C26 30 58 18 74 34 C84 10 124 12 128 40 C152 38 162 70 142 82 C150 100 126 108 114 96 C102 110 72 110 64 96 C56 102 44 100 38 92 Z" fill="#FDC0C3" stroke="#3B2A2E" stroke-width="3.5" stroke-linejoin="round"/>
+          <path class="scr2" d="M58 64 C48 42 90 36 86 58 S52 78 62 54 S106 40 104 62 S70 84 80 60 S118 52 110 74" fill="none" stroke="#A3404A" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="30" cy="108" r="7" fill="#FDC0C3" stroke="#3B2A2E" stroke-width="3"/>
+          <circle cx="15" cy="119" r="4" fill="#FDC0C3" stroke="#3B2A2E" stroke-width="2.5"/>
+        </svg>
+        <p class="head-hint hand">toca cada viñeta</p>
+      </div>
+      <nav class="subs" aria-label="Subtemas">
+        <div class="subs-t">Subtemas</div>
+        <a class="sub" href="#p1" data-go="1"><i class="c1">1</i><span>¿Qué es la ansiedad?<small>La alarma del cuerpo</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="sub" href="#p2" data-go="2"><i class="c2">2</i><span>Cómo se siente<small>Señales y un test de 2 preguntas</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="sub" href="#p3" data-go="3"><i class="c3">3</i><span>De dónde viene<small>La mochila del día a día</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="sub" href="#p4" data-go="4"><i class="c4">4</i><span>Qué hacer en el momento<small>Respiración guiada y 5-4-3-2-1</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></a>
+        <a class="sub" href="#p5" data-go="5"><i class="c5">5</i><span>Hábitos y ayuda<small>Mito o realidad, encuesta y recursos</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></a>
+      </nav>
+    </div>
+    <div class="by">
+      <div class="attn"><svg viewBox="0 0 24 24" fill="none" stroke="#4F7552" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M8 14h2M14 14h2M8 17h2"/></svg><p>Si dura semanas y empieza a meterse con tu vida diaria, <b>merece atención.</b></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1 · QUÉ ES ======================= -->
+<section class="pg p1" id="p1" data-label="¿Qué es la ansiedad?">
+  <div class="blob" aria-hidden="true"></div>
+  <div class="pg-in">
+    <div class="rv">
+      <span class="kicker"><b>1</b>Subtema 1 de 5 · Lo básico</span>
+      <h2 class="h-pg" style="margin-top:12px">Una alarma que suena <em>antes de tiempo</em></h2>
+    </div>
+    <div class="grid2 wide-l">
+      <div class="reading rv">
+        <article class="rc"><h4><span class="rc-i">?</span>Qué es</h4><p>Es la respuesta del cuerpo ante algo que percibe como una amenaza, <b>aunque esa amenaza todavía no exista</b>.</p></article>
+        <article class="rc"><h4><span class="rc-i">≠</span>No es lo mismo que el miedo</h4><p>El <b>miedo</b> reacciona a lo que tienes enfrente. La <b>ansiedad</b> reacciona a lo que podría pasar: la cita del viernes, una conversación difícil, el mensaje que te dejaron en visto.</p></article>
+        <article class="rc"><h4><span class="rc-i">!</span>Por qué la tenemos</h4><p>Es el mismo sistema que ayudaba a nuestros antepasados a escapar de un depredador. El cerebro no distingue bien entre un depredador y una fecha límite, así que <b>responde igual a los dos</b>.</p></article>
+        <p class="note">El problema empieza cuando la alarma suena todo el tiempo.</p>
+      </div>
+      <div class="stat rv">
+        <span class="tape pink"></span>
+        <span class="num">301 M</span>
+        <p>de personas vivían con un trastorno de ansiedad en 2019. Es el problema de salud mental más común del mundo.</p>
+        <p class="src">Organización Mundial de la Salud, 2023</p>
+      </div>
+    </div>
+
+    <div class="panel rv">
+      <div class="panel-h"><span class="tag">Juego · toca</span><h3 class="h-sec">Toca el cuerpo</h3><p class="sub-h">Cada punto muestra qué pasa ahí cuando se activa la ansiedad.</p></div>
+      <div class="bodymap">
+        <div class="figure">
+          <svg viewBox="0 0 200 340" aria-hidden="true">
+            <path d="M58 196 L60 320 Q62 332 76 332 Q88 332 88 320 L96 210 Z" fill="#F7C9C6"/>
+            <path d="M142 196 L140 320 Q138 332 124 332 Q112 332 112 320 L104 210 Z" fill="#F7C9C6"/>
+            <path d="M58 90 Q36 100 30 150 L24 205 Q22 216 30 216 Q38 216 38 205 L46 150 Q52 122 64 110 Z" fill="#F4B6B3"/>
+            <path d="M142 90 Q164 100 170 150 L176 205 Q178 216 170 216 Q162 216 162 205 L154 150 Q148 122 136 110 Z" fill="#F4B6B3"/>
+            <path d="M58 86 Q100 74 142 86 L150 200 Q100 214 50 200 Z" fill="#F8A3A0"/>
+            <rect x="90" y="64" width="20" height="18" rx="6" fill="#F4B6B3"/>
+            <circle cx="100" cy="40" r="29" fill="#F7C9C6"/>
+            <path d="M84 36 Q86 22 100 22 Q116 22 116 36 Q118 46 108 48 Q100 52 92 48 Q82 46 84 36Z" fill="#D4636B" opacity=".55"/>
+            <path d="M108 112 q6 -8 12 0 q6 8 -12 20 q-18 -12 -12 -20 q6 -8 12 0z" fill="#A3404A" opacity=".55"/>
+            <ellipse cx="80" cy="122" rx="13" ry="22" fill="#fff" opacity=".35"/>
+            <ellipse cx="122" cy="126" rx="11" ry="18" fill="#fff" opacity=".2"/>
+            <ellipse cx="100" cy="166" rx="18" ry="13" fill="#A5C3A3" opacity=".6"/>
+          </svg>
+          <button type="button" class="hot" style="left:50%;top:11%" data-k="0" aria-label="Cerebro">1</button>
+          <button type="button" class="hot" style="left:29%;top:26%" data-k="1" aria-label="Hombros y mandíbula">2</button>
+          <button type="button" class="hot" style="left:40%;top:36%" data-k="2" aria-label="Pulmones">3</button>
+          <button type="button" class="hot" style="left:60%;top:34%" data-k="3" aria-label="Corazón">4</button>
+          <button type="button" class="hot" style="left:50%;top:49%" data-k="4" aria-label="Estómago">5</button>
+          <button type="button" class="hot" style="left:15%;top:62%" data-k="5" aria-label="Manos">6</button>
+        </div>
+        <div class="mapinfo" id="mapinfo" aria-live="polite">
+          <span class="ico">empieza por la cabeza ↑</span>
+          <h4>Toca un número</h4>
+          <p>La respuesta de ansiedad recorre todo el cuerpo en segundos. Ve tocando los puntos en orden y verás por qué uno se siente tan mal aunque "no pase nada".</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel rv sort" id="sort" data-noswipe>
+      <div class="panel-h"><span class="tag">Juego · clasifica</span><h3 class="h-sec">¿Miedo o ansiedad?</h3><p class="sub-h">Lee la situación y decide. Pista: piensa si el peligro está ahora o en el futuro.</p></div>
+      <div class="sort-dots"></div>
+      <div class="sort-card"><p class="sort-txt"></p></div>
+      <p class="sort-fb" hidden></p>
+      <div class="sort-btns"><button type="button" class="btn" data-a="m">Miedo<small>peligro ahora</small></button><button type="button" class="btn rose" data-a="a">Ansiedad<small>peligro que podría pasar</small></button></div>
+      <button type="button" class="btn ghost sort-next" hidden>Siguiente</button>
+    </div>
+
+    <div class="grid2">
+      <div class="panel rv curve-wrap">
+        <div class="panel-h"><span class="tag">Interactivo · mueve la barra</span><h3 class="h-sec">¿Cuánta ansiedad es demasiada?</h3></div>
+        <svg viewBox="0 0 220 120" id="curve" role="img" aria-label="Curva en forma de U invertida: el rendimiento sube con la activación hasta un punto y luego baja">
+          <rect x="10" y="8" width="62" height="92" fill="#DCE9EF" rx="6"/>
+          <rect x="74" y="8" width="72" height="92" fill="#DCE8DA" rx="6"/>
+          <rect x="148" y="8" width="62" height="92" fill="#FFE3E3" rx="6"/>
+          <text x="41" y="20" text-anchor="middle" class="zone" fill="#5D7F8E">Apatía</text>
+          <text x="110" y="20" text-anchor="middle" class="zone" fill="#4F7552">Zona útil</text>
+          <text x="179" y="20" text-anchor="middle" class="zone" fill="#A3404A">Bloqueo</text>
+          <polyline id="curve-line" fill="none" stroke="#3B2A2E" stroke-width="2.5" stroke-linecap="round" points=""/>
+          <line x1="10" y1="100" x2="210" y2="100" stroke="#6B5459" stroke-width="1"/>
+          <text x="110" y="115" text-anchor="middle" font-size="9" fill="#6B5459">nivel de ansiedad →</text>
+          <circle id="curve-dot" r="7" fill="#A3404A" stroke="#fff" stroke-width="3" cx="110" cy="30"/>
+        </svg>
+        <label for="curve-range" class="src">Tu nivel de ansiedad antes de algo importante</label>
+        <input type="range" id="curve-range" class="range" min="0" max="100" value="50" data-noswipe>
+        <div class="curve-out" id="curve-out"></div>
+        <p class="src">La curva viene de un experimento de Yerkes y Dodson (1908). Desde entonces se ha simplificado bastante, pero la idea se sostiene: algo de activación te ayuda a rendir y demasiada te estorba.</p>
+      </div>
+      <div class="block rv">
+        <p class="vlabel">para ver con calma ↓</p>
+        <a class="video" href="https://www.youtube.com/watch?v=3iXjHf12ed4" target="_blank" rel="noopener">
+          <span class="thumb"><img src="img/yt-3iXjHf12ed4.jpg" alt="" loading="lazy"><span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></span>
+          <span><span class="vt">¿Qué es la ansiedad?</span><span class="vm" style="display:block">American Psychiatric Association · YouTube</span></span>
+        </a>
+        <figure class="photo r-r tap" tabindex="0" role="button" data-img="img/laptop.jpg" data-t="Anticipar"
+          data-d="Gran parte de la ansiedad pasa en el futuro: lo que te van a decir, el resultado que todavía no sale, el pendiente que aún no empiezas. El cuerpo reacciona como si ya estuviera pasando.">
+          <span class="tape"></span>
+          <img src="img/laptop.jpg" alt="Joven con audífonos mirando preocupado su computadora" loading="lazy">
+          <figcaption>"¿y si no me alcanza el tiempo?"</figcaption><span class="plus">+</span>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2 · CÓMO SE SIENTE ======================= -->
+<section class="pg p2" id="p2" data-label="Cómo se siente">
+  <div class="blob" aria-hidden="true"></div>
+  <div class="pg-in">
+    <div class="rv">
+      <span class="kicker"><b>2</b>Subtema 2 de 5 · Señales</span>
+      <h2 class="h-pg" style="margin-top:12px">Se nota en el cuerpo, en la cabeza y <em>en lo que haces</em></h2>
+    </div>
+    <p class="lead intro rv">No siempre se presenta como nervios. Mucha gente la confunde con cansancio, mal humor o con ser "flojo". Casi cualquier persona ha dicho alguna de estas frases en una semana pesada. Toca cada tarjeta para ver qué hay detrás.</p>
+
+    <div class="rv">
+      <div class="rail" data-noswipe id="cards"></div>
+      <p class="swipe-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M15 8l4 4-4 4"/></svg>Desliza para ver más tarjetas</p>
+    </div>
+
+    <div class="panel rv memo" id="memo" data-noswipe>
+      <div class="panel-h"><span class="tag">Juego · memorama</span><h3 class="h-sec">Cada síntoma tiene su porqué</h3><p class="sub-h">Encuentra las 6 parejas de síntoma y causa.</p></div>
+      <div class="memo-grid"></div>
+      <p class="memo-info" aria-live="polite"></p>
+      <div class="memo-foot"><span class="memo-st"></span><button type="button" class="btn ghost memo-reset">Barajar</button></div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel rv">
+        <div class="panel-h"><span class="tag">Compara</span><h3 class="h-sec">¿Nervios normales o algo más?</h3></div>
+        <div class="toggle" id="cmp-toggle">
+          <button type="button" aria-pressed="true" data-v="ok">Nervios normales</button>
+          <button type="button" aria-pressed="false" data-v="alert">Vale la pena consultar</button>
+        </div>
+        <div class="cmp ok" id="cmp-ok">
+          <ul>
+            <li><i>✓</i><span>Tienen una causa clara: una entrevista, una cita médica, hablar en público.</span></li>
+            <li><i>✓</i><span>Bajan cuando la situación termina.</span></li>
+            <li><i>✓</i><span>Te incomodan, pero igual haces lo que tenías que hacer.</span></li>
+            <li><i>✓</i><span>Duermes mal una noche, no un mes.</span></li>
+          </ul>
+        </div>
+        <div class="cmp alert" id="cmp-alert" hidden>
+          <ul>
+            <li><i>!</i><span>Aparece sin motivo claro, o por casi cualquier cosa.</span></li>
+            <li><i>!</i><span>Dura semanas. Para el trastorno de ansiedad generalizada se habla de al menos seis meses de preocupación casi diaria.</span></li>
+            <li><i>!</i><span>Empiezas a faltar a tus compromisos, a no salir o a dejar cosas que antes disfrutabas.</span></li>
+            <li><i>!</i><span>Tienes ataques de pánico: el corazón se dispara, falta el aire y sientes que algo grave va a pasar.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel gad rv" id="gad">
+        <div class="panel-h"><span class="tag">Test rápido · GAD-2</span><h3 class="h-sec">Dos preguntas</h3><p class="sub-h">En las últimas dos semanas, ¿con qué frecuencia te ha pasado esto?</p></div>
+        <fieldset>
+          <legend>1. Sentirte nervioso(a), ansioso(a) o con los nervios de punta.</legend>
+          <div class="opts">
+            <label><input type="radio" name="g1" id="g1-0" value="0"><span>Nunca</span></label>
+            <label><input type="radio" name="g1" id="g1-1" value="1"><span>Varios días</span></label>
+            <label><input type="radio" name="g1" id="g1-2" value="2"><span>Más de la mitad de los días</span></label>
+            <label><input type="radio" name="g1" id="g1-3" value="3"><span>Casi todos los días</span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>2. No poder dejar de preocuparte o no poder controlar la preocupación.</legend>
+          <div class="opts">
+            <label><input type="radio" name="g2" id="g2-0" value="0"><span>Nunca</span></label>
+            <label><input type="radio" name="g2" id="g2-1" value="1"><span>Varios días</span></label>
+            <label><input type="radio" name="g2" id="g2-2" value="2"><span>Más de la mitad de los días</span></label>
+            <label><input type="radio" name="g2" id="g2-3" value="3"><span>Casi todos los días</span></label>
+          </div>
+        </fieldset>
+        <div class="gad-res" id="gad-res" aria-live="polite"><b>Responde las dos</b>Tu resultado aparece aquí. Nadie más lo ve.</div>
+        <p class="src">El GAD-2 es una prueba de detección (Kroenke y colegas, 2007). Sirve para saber si conviene una evaluación, no para diagnosticar.</p>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="block rv">
+        <p class="vlabel">una neurocientífica lo explica ↓</p>
+        <a class="video" href="https://www.youtube.com/watch?v=2ObrEDglCRY" target="_blank" rel="noopener">
+          <span class="thumb"><img src="img/yt-2ObrEDglCRY.jpg" alt="" loading="lazy"><span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></span>
+          <span><span class="vt">La ansiedad no es sino un miedo alojado</span><span class="vm" style="display:block">Ana Ibáñez · AprendemosJuntos</span></span>
+        </a>
+      </div>
+      <figure class="photo r-l tap rv" tabindex="0" role="button" data-img="img/manos.jpg" data-t="Lo que no se dice"
+        data-d="Mucha gente con ansiedad responde &quot;estoy bien&quot; en automático. Preguntar dos veces, con calma y sin juzgar, abre más conversaciones que cualquier consejo.">
+        <span class="tape blue"></span>
+        <img src="img/manos.jpg" alt="Dos manos que casi se tocan" loading="lazy">
+        <figcaption>a veces solo falta preguntar dos veces</figcaption><span class="plus">+</span>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 3 · DE DÓNDE VIENE ======================= -->
+<section class="pg p3" id="p3" data-label="De dónde viene">
+  <div class="blob" aria-hidden="true"></div>
+  <div class="pg-in">
+    <div class="rv">
+      <span class="kicker"><b>3</b>Subtema 3 de 5 · Causas</span>
+      <h2 class="h-pg" style="margin-top:12px">Nadie se pone ansioso <em>de la nada</em></h2>
+    </div>
+    <div class="grid2 wide-l">
+      <div class="reading rv">
+        <article class="rc"><h4><span class="rc-i">+</span>Nunca hay una sola causa</h4><p>En psicología se explica con el <b>modelo de vulnerabilidad y estrés</b>: una base personal a la que se le van sumando presiones.</p></article>
+        <article class="rc"><h4><span class="rc-i">1</span>La base</h4><p>Genética, temperamento y lo que viviste de niña o niño. Es lo que cada quien trae.</p></article>
+        <article class="rc"><h4><span class="rc-i">2</span>Lo que se suma</h4><p>Trabajo, dinero, problemas en casa, poco sueño. Mientras la carga cabe en lo que puedes manejar, todo funciona. <b>Cuando se pasa, aparece la ansiedad.</b></p></article>
+        <p class="note">Por eso dos personas con la misma rutina lo viven distinto, y ninguno está exagerando.</p>
+      </div>
+      <div class="collage rv">
+        <figure class="photo r-r tap" tabindex="0" role="button" data-img="img/estudio.jpg" data-t="Todo al mismo tiempo"
+          data-d="Muchas veces la presión llega en bloques: varios pendientes para la misma fecha. Ver todo en un calendario reduce la sensación de que todo llega de golpe.">
+          <span class="tape"></span><img src="img/estudio.jpg" alt="Persona escribiendo en un cuaderno junto a una taza" loading="lazy"><figcaption>todo para el mismo viernes</figcaption><span class="plus">+</span>
+        </figure>
+        <figure class="photo r-l tap" tabindex="0" role="button" data-img="img/grupo.jpg" data-t="Depender de otros"
+          data-d="Depender de otras personas para terminar algo es una fuente de ansiedad muy común. Dejar claro quién hace qué y para cuándo evita muchos problemas.">
+          <img src="img/grupo.jpg" alt="Grupo de personas trabajando con computadoras" loading="lazy"><figcaption>cuando depende de otros</figcaption><span class="plus">+</span>
+        </figure>
+        <figure class="photo r-r tap" tabindex="0" role="button" data-img="img/cafe.jpg" data-t="El café"
+          data-d="Una taza de café filtrado tiene alrededor de 95 mg de cafeína. En exceso provoca pulso acelerado, temblor e insomnio, que son casi los mismos síntomas de la ansiedad.">
+          <img src="img/cafe.jpg" alt="Manos sosteniendo tazas de café con arte latte" loading="lazy"><figcaption>¿el tercero?</figcaption><span class="plus">+</span>
+        </figure>
+      </div>
+    </div>
+
+    <div class="panel rv">
+      <div class="panel-h"><span class="tag">Juego</span><h3 class="h-sec">La mochila del día a día</h3><p class="sub-h">Toca lo que estás cargando ahora. Tócalo otra vez para sacarlo.</p></div>
+      <div class="bag">
+        <div class="bag-vis">
+          <svg viewBox="0 0 120 140" id="bag-svg" aria-hidden="true">
+            <path d="M40 30 Q40 10 60 10 Q80 10 80 30" fill="none" stroke="#3B2A2E" stroke-width="6" stroke-linecap="round"/>
+            <rect x="18" y="28" width="84" height="104" rx="22" fill="#D4636B"/>
+            <rect x="32" y="70" width="56" height="40" rx="10" fill="#A3404A"/>
+            <rect x="52" y="64" width="16" height="10" rx="3" fill="#FDC0C3"/>
+            <rect id="bag-fill" x="18" y="132" width="84" height="0" rx="0" fill="#3B2A2E" opacity=".25"/>
+          </svg>
+          <div class="meter"><i id="bag-meter"></i></div>
+          <p class="bag-msg" id="bag-msg">Vacía. Empieza a cargarla.</p>
+        </div>
+        <div class="block">
+          <div class="chips" id="bag-chips"></div>
+          <button type="button" class="btn ghost" id="bag-reset" style="align-self:flex-start">Vaciar la mochila</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="caf rv">
+        <div>
+          <p style="font-weight:700;margin-bottom:8px">¿Cuántos cafés llevas hoy?</p>
+          <div class="cups" id="cups"></div>
+        </div>
+        <div class="caf-out" id="caf-out">0 mg<small>de cafeína</small></div>
+        <p class="src" style="grid-column:1/-1" id="caf-msg">La FDA considera que hasta 400 mg al día es una cantidad que en general no causa problemas en adultos sanos.</p>
+      </div>
+      <div class="block rv">
+        <p class="vlabel">en inglés, activa los subtítulos ↓</p>
+        <a class="video" href="https://www.youtube.com/watch?v=v-t1Z5-oPtU" target="_blank" rel="noopener">
+          <span class="thumb"><img src="img/yt-v-t1Z5-oPtU.jpg" alt="" loading="lazy"><span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></span>
+          <span><span class="vt">How stress affects your body (Cómo afecta el estrés a tu cuerpo)</span><span class="vm" style="display:block">TED-Ed · animado, 4 min</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4 · QUÉ HACER ======================= -->
+<section class="pg p4" id="p4" data-label="Qué hacer en el momento">
+  <div class="pg-in">
+    <div class="rv">
+      <span class="kicker"><b>4</b>Subtema 4 de 5 · En el momento</span>
+      <h2 class="h-pg" style="margin-top:12px">Cuando <em>ya está pasando</em></h2>
+    </div>
+    <p class="lead intro rv">La ansiedad se calma primero por el cuerpo y después por la mente. En pleno ataque, intentar "pensar positivo" casi nunca funciona. Lo que sí funciona es mandarle al sistema nervioso una señal física de que no hay peligro, y la más rápida es la respiración.</p>
+
+    <div class="grid2">
+      <div class="panel breath rv" id="breath">
+        <div class="panel-h"><span class="tag">Herramienta · pruébalo ahora</span><h3 class="h-sec">Respira con el círculo</h3></div>
+        <div class="toggle" id="br-mode">
+          <button type="button" aria-pressed="true" data-v="sigh">Suspiro cíclico</button>
+          <button type="button" aria-pressed="false" data-v="box">Respiración en caja</button>
+        </div>
+        <div class="circle-wrap">
+          <div class="ringbg"></div>
+          <div class="circle" id="br-circle"></div>
+          <div class="circle-txt"><b id="br-txt">Listo cuando tú lo estés</b><span id="br-count"></span></div>
+        </div>
+        <button type="button" class="btn rose" id="br-btn">Empezar</button>
+        <p class="help" id="br-help">Dos inhalaciones por la nariz (una larga y otra cortita para terminar de llenar los pulmones) y una exhalación lenta por la boca.</p>
+        <p class="src">En un estudio de Stanford (Balban y colegas, 2023), cinco minutos diarios de suspiro cíclico mejoraron el estado de ánimo más que la meditación.</p>
+      </div>
+
+      <div class="panel rv" id="g54">
+        <div class="panel-h"><span class="tag">Juego · para aterrizar</span><h3 class="h-sec">Técnica 5-4-3-2-1</h3><p class="sub-h">Sirve cuando la mente se fue al futuro. Te regresa al presente usando los sentidos.</p></div>
+        <div class="steps" id="g54-steps"><i></i><i></i><i></i><i></i><i></i></div>
+        <div>
+          <div class="g54-n" id="g54-n">5</div>
+          <div class="g54-t" id="g54-t">cosas que puedes ver</div>
+          <p class="src" id="g54-h" style="margin-top:4px">Nómbralas en voz baja y toca un círculo por cada una.</p>
+        </div>
+        <div class="dots" id="g54-dots"></div>
+        <button type="button" class="btn ghost" id="g54-reset" style="align-self:flex-start" hidden>Hacerlo otra vez</button>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel thought rv">
+        <div class="panel-h"><span class="tag">Herramienta · atrapa el pensamiento</span><h3 class="h-sec">Escoge uno que te suene conocido</h3></div>
+        <div class="chips" id="th-chips"></div>
+        <p class="tq" id="th-q"></p>
+        <div style="margin-top:8px">
+          <p style="font-weight:700;margin-bottom:6px">Hazle estas preguntas:</p>
+          <ol>
+            <li>¿Qué pruebas tengo de que va a pasar?</li>
+            <li>¿Qué le diría a una amiga si ella pensara esto?</li>
+            <li>¿Qué es lo más probable, no lo peor?</li>
+          </ol>
+        </div>
+        <button type="button" class="btn sage" id="th-btn" style="align-self:flex-start">Ver otra forma de verlo</button>
+        <div class="alt" id="th-alt" hidden><b>Una versión más realista</b><span id="th-alt-t"></span></div>
+        <p class="src">Esta técnica viene de la terapia cognitivo-conductual. No se trata de mentirse, sino de quitarle al pensamiento el volumen que no merece.</p>
+      </div>
+      <div class="block rv">
+        <figure class="photo r-r tap" tabindex="0" role="button" data-img="img/medita.jpg" data-t="Cinco minutos cuentan"
+          data-d="No hace falta una hora de meditación. Cinco minutos de respiración lenta al día ya muestran efecto en el estado de ánimo. Lo importante es repetirlo, aunque sea corto.">
+          <span class="tape pink"></span><img src="img/medita.jpg" alt="Silueta de una persona meditando al atardecer" loading="lazy"><figcaption>cinco minutos, no una hora</figcaption><span class="plus">+</span>
+        </figure>
+        <p class="vlabel" style="margin-top:14px">un psicólogo la explica paso a paso ↓</p>
+        <a class="video" href="https://www.youtube.com/watch?v=WFme9xUZxvU" target="_blank" rel="noopener">
+          <span class="thumb"><img src="img/yt-WFme9xUZxvU.jpg" alt="" loading="lazy"><span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></span>
+          <span><span class="vt">La técnica 5, 4, 3, 2, 1</span><span class="vm" style="display:block">Nicolás Paipa · Psicología y Bienestar</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 5 · HÁBITOS Y AYUDA ======================= -->
+<section class="pg p5" id="p5" data-label="Hábitos y ayuda">
+  <div class="blob" aria-hidden="true"></div>
+  <div class="pg-in">
+    <div class="rv">
+      <span class="kicker"><b>5</b>Subtema 5 de 5 · Todos los días</span>
+      <h2 class="h-pg" style="margin-top:12px">Lo que se hace <em>cuando no hay crisis</em></h2>
+    </div>
+    <p class="lead intro rv">Lo de la página anterior sirve para apagar el fuego. Estos hábitos hacen que se prenda menos seguido. Ninguno es mágico, pero juntos hacen diferencia.</p>
+
+    <div class="grid2">
+      <div class="panel rv">
+        <div class="panel-h"><span class="tag">Checklist</span><h3 class="h-sec">¿Cómo va tu semana?</h3><p class="sub-h">Marca lo que sí estás haciendo.</p></div>
+        <div class="habits" id="habits"></div>
+        <div class="hab-out"><span class="n" id="hab-n">0/7</span><p id="hab-msg" style="font-weight:600">Marca tus hábitos para ver el resultado.</p></div>
+      </div>
+      <div class="block rv">
+        <div class="collage" style="padding-top:0">
+          <figure class="photo r-l tap" tabindex="0" role="button" data-img="img/correr.jpg" data-t="Moverse"
+            data-d="La OMS recomienda al menos 150 minutos de actividad física moderada a la semana. Caminar rápido cuenta. Son unos 20 minutos al día.">
+            <span class="tape"></span><img src="img/correr.jpg" alt="Persona subiendo gradas corriendo" loading="lazy"><figcaption>las gradas también cuentan</figcaption><span class="plus">+</span>
+          </figure>
+          <figure class="photo r-r tap" tabindex="0" role="button" data-img="img/dormir.jpg" data-t="Dormir"
+            data-d="Una noche corta sube la reactividad de la amígdala al día siguiente. Por eso todo se siente más grave cuando dormiste mal.">
+            <img src="img/dormir.jpg" alt="Gato durmiendo entre sábanas blancas" loading="lazy"><figcaption>dormir no es perder el tiempo</figcaption><span class="plus">+</span>
+          </figure>
+          <figure class="photo r-l tap" tabindex="0" role="button" data-img="img/escribir.jpg" data-t="Escribirlo"
+            data-d="Sacar las preocupaciones de la cabeza y ponerlas en papel ayuda a ordenarlas. Prueba a escribir diez minutos antes de dormir lo que te tiene pensando.">
+            <img src="img/escribir.jpg" alt="Pluma escribiendo en una hoja" loading="lazy"><figcaption>sacarlo de la cabeza</figcaption><span class="plus">+</span>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel myth rv" id="myth">
+        <div class="panel-h"><span class="tag">Juego</span><h3 class="h-sec">¿Mito o realidad?</h3></div>
+        <div class="meta"><span id="my-i">1 de 7</span><span id="my-s">Aciertos: 0</span></div>
+        <div class="card" id="my-card"><p class="stmt" id="my-stmt"></p><p class="verdict" id="my-v" hidden></p><p id="my-exp" hidden></p></div>
+        <div class="row" id="my-btns">
+          <button type="button" class="btn rose" data-a="m">Mito</button>
+          <button type="button" class="btn sage" data-a="r">Realidad</button>
+        </div>
+        <button type="button" class="btn" id="my-next" hidden>Siguiente</button>
+      </div>
+
+      <div class="panel rv" id="poll">
+        <div class="panel-h"><span class="tag">Encuesta</span><h3 class="h-sec">¿Qué te genera más ansiedad?</h3><p class="sub-h">Escoge una. Puedes cambiar tu voto.</p></div>
+        <div class="poll-opts" id="poll-opts"></div>
+        <p class="poll-note" id="poll-note">Conectando con los resultados…</p>
+      </div>
+    </div>
+
+    <div class="block rv">
+      <h3 class="h-sec">Si necesitas hablar con alguien</h3>
+      <div class="help-grid">
+        <div class="help">
+          <h4>Atención psicológica</h4>
+          <p>Muchos centros de salud, clínicas comunitarias y organizaciones ofrecen atención psicológica gratuita o a bajo costo. Preguntar no te compromete a nada.</p>
+        </div>
+        <div class="help">
+          <h4>Alguien de confianza</h4>
+          <p>Un amigo, tu familia, alguien con quien te lleves bien. No tiene que saber de psicología. Basta con que escuche.</p>
+        </div>
+        <div class="help">
+          <h4>Líneas de apoyo por país</h4>
+          <p>En <a href="https://findahelpline.com/es" target="_blank" rel="noopener">findahelpline.com</a> puedes buscar líneas gratuitas y confidenciales según tu país.</p>
+        </div>
+        <div class="help urgent">
+          <h4>En una emergencia en Guatemala</h4>
+          <p>Si tú o alguien cercano está en peligro o piensa en hacerse daño, busca ayuda ese mismo día.</p>
+          <div class="nums"><span>PNC 110</span><span>Bomberos Voluntarios 122</span><span>Bomberos Municipales 123</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CONTRAPORTADA ======================= -->
+<section class="pg back" id="fin" data-label="Contraportada">
+  <div class="pg-in">
+    <div class="grid2">
+      <div class="block rv">
+        <span class="kicker" style="color:#D9C6C8">Nota de la editora</span>
+        <div class="letter">
+          <span class="tape pink"></span>
+          <p>Escogí la ansiedad porque es de esos temas que todos conocemos de cerca y casi nadie explica bien. Se volvió normal dormir poco, comer a la carrera y responder "bien" cuando alguien pregunta cómo estamos.</p>
+          <p>Hice esta revista para que se pueda usar, no solo leer. Si algo te sirvió, aunque sea el círculo de respiración de la página 4, la revista cumplió su trabajo.</p>
+          <p class="sign">Cesia</p>
+        </div>
+      </div>
+      <div class="block rv">
+        <figure class="photo r-r tap" tabindex="0" role="button" data-img="img/amigos.jpg" data-t="Nadie lo hace solo"
+          data-d="Las personas con una red de apoyo cercana se recuperan más rápido de los periodos de estrés. Pedir ayuda también es una habilidad que se practica.">
+          <span class="tape"></span><img src="img/amigos.jpg" alt="Grupo de amigos sentados abrazados mirando el paisaje" loading="lazy"><figcaption>nadie lo hace solo</figcaption><span class="plus">+</span>
+        </figure>
+      </div>
+    </div>
+    <div class="panel rv sopa" id="sopa" data-noswipe>
+      <div class="panel-h"><span class="tag">Pasatiempo</span><h3 class="h-sec">Sopa de letras</h3><p class="sub-h">Siete palabras de esta revista. Pueden estar en horizontal, vertical o diagonal.</p></div>
+      <div class="sopa-wrap"><div class="ws-grid"></div><ul class="ws-list"></ul></div>
+      <p class="ws-st src" aria-live="polite"></p>
+    </div>
+    <p class="end">Fin del N.º 1</p>
+    <div class="refs">
+      <h4>Fuentes</h4>
+      <ol>
+        <li>Organización Mundial de la Salud (2023). <i>Trastornos de ansiedad</i>. Nota descriptiva. <a href="https://www.who.int/es/news-room/fact-sheets/detail/anxiety-disorders" target="_blank" rel="noopener">who.int</a></li>
+        <li>Kroenke, K. y col. (2007). Anxiety disorders in primary care: prevalence, impairment, comorbidity, and detection. <i>Annals of Internal Medicine</i>, 146(5).</li>
+        <li>Balban, M. Y. y col. (2023). Brief structured respiration practices enhance mood and reduce physiological arousal. <i>Cell Reports Medicine</i>, 4(1).</li>
+        <li>Yerkes, R. M. y Dodson, J. D. (1908). The relation of strength of stimulus to rapidity of habit-formation. <i>Journal of Comparative Neurology and Psychology</i>, 18.</li>
+        <li>Organización Mundial de la Salud (2020). <i>Directrices sobre actividad física y hábitos sedentarios</i>.</li>
+        <li>U.S. Food and Drug Administration. <i>Spilling the Beans: How Much Caffeine is Too Much?</i></li>
+        <li>American Psychiatric Association (2013). <i>DSM-5</i>. Criterios del trastorno de ansiedad generalizada.</li>
+        <li>Zubin, J. y Spring, B. (1977). Vulnerability: a new view of schizophrenia. <i>Journal of Abnormal Psychology</i>, 86(2). Origen del modelo de vulnerabilidad y estrés.</li>
+        <li>Yoo, S. y col. (2007). The human emotional brain without sleep. <i>Current Biology</i>, 17(20).</li>
+      </ol>
+      <p style="margin-top:12px">Fotografías: Unsplash (licencia libre). Videos: sus respectivos canales de YouTube.</p>
+      <p style="margin-top:4px">Un respiro para tu mente · N.º 1 · Noviembre 5 de 2026 · Por Cesia Saraí De Leon Cardona</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<button type="button" class="fab" id="fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span id="fab-t">Índice</span></button>
+
+<div id="flipview" aria-label="Modo revista">
+  <div class="book" id="book">
+    <div class="book-clip">
+      <div class="book-empty">abre la revista<br>con la flecha →</div>
+      <div class="leaves" id="leaves"></div>
+    </div>
+  </div>
+  <div class="fnav">
+    <button type="button" id="f-prev" aria-label="Página anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <div class="info"><b id="f-name">Portada</b><small id="f-num">1 de 7</small><div class="pdots" id="pdots"></div></div>
+    <button type="button" id="f-next" aria-label="Página siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-bg" data-close></div>
+  <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sheet-t">
+    <div class="grab"></div>
+    <button type="button" class="x" data-close aria-label="Cerrar">×</button>
+    <div id="sheet-body" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+</div>
+
+<script src="js/revista.js"></script>
+<script src="js/juegos.js"></script>
+<script src="js/scroll.js"></script>
+</body></html>

@@ -342,9 +342,9 @@ function drawPoll(){
 popts.addEventListener('click',async e=>{ const b=e.target.closest('.popt'); if(!b) return; const k=b.dataset.k;
   if(voteFn){ const prev=myVote; myVote=k; store.set('pulso-voto',k); drawPoll();
     try{ await voteFn(k); }catch(err){ shared=false; voteFn=null; localOnly(prev); } }
-  else { localOnly(myVote); myVote=k; store.set('pulso-voto',k); counts={}; counts[k]=1; drawPoll(); pnote.textContent='Tu respuesta quedó guardada en este dispositivo. Los resultados de todos se ven al abrir la revista con una cuenta de Claude.'; }
+  else { localOnly(myVote); myVote=k; store.set('pulso-voto',k); counts={}; counts[k]=1; drawPoll(); pnote.textContent='Tu respuesta quedó guardada en este dispositivo.'; }
 });
-function localOnly(){ counts={}; if(myVote) counts[myVote]=1; drawPoll(); pnote.textContent='Tu respuesta quedó guardada en este dispositivo. Los resultados de todos se ven al abrir la revista con una cuenta de Claude.'; }
+function localOnly(){ counts={}; if(myVote) counts[myVote]=1; drawPoll(); pnote.textContent='Tu respuesta quedó guardada en este dispositivo.'; }
 if(myVote){ counts[myVote]=1; }
 drawPoll(); pnote.textContent='Escoge una opción para ver los resultados.';
 (async()=>{
