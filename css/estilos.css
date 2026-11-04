@@ -650,5 +650,5 @@ body.paged #webview .pg{min-height:calc(100vh - var(--bar-h))}
 .leaf.far .face{content-visibility:hidden}
 .leaf.far *{animation-play-state:paused!important}
 
-/* ---- solo modo revista: sin selector Web/Revista ---- */
-.bar .seg{display:none}
+/* ---- en celular solo modo revista: sin selector Web/Revista ---- */
+@media (max-width:760px){ .bar .seg{display:none} }

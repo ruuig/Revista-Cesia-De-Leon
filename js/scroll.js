@@ -34,14 +34,21 @@ const groups=new Map();
 $$('.sa-i').forEach(el=>{ const p=el.parentElement; const n=groups.get(p)||0; el.style.setProperty('--d',Math.min(n,8)*55+'ms'); groups.set(p,n+1); });
 
 if(!reduce&&'IntersectionObserver' in window){
-  const enter=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('in'); }),{rootMargin:'0px 0px -6% 0px'});
-  const leave=new IntersectionObserver(es=>es.forEach(en=>{ if(!en.isIntersecting) en.target.classList.remove('in'); }),{rootMargin:'60px 0px 60px 0px'});
-  const watch=el=>{ enter.observe(el); leave.observe(el); };
+  /* Se mide contra lo que de verdad desplaza: la pantalla en modo web y la
+     propia hoja en modo revista. Para quitar la animación hay que alejarse
+     160px; así el empujón de la animación nunca lo saca y no parpadea. */
+  const obs=new Map();
+  const pair=root=>{ let p=obs.get(root); if(p) return p;
+    p={ enter:new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('in'); }),{root,rootMargin:'0px 0px -6% 0px'}),
+        leave:new IntersectionObserver(es=>es.forEach(en=>{ if(!en.isIntersecting) en.target.classList.remove('in'); }),{root,rootMargin:'160px 0px 160px 0px'}) };
+    obs.set(root,p); return p; };
+  const watch=el=>{ const p=pair(el.closest('.face.front')||null); p.enter.observe(el); p.leave.observe(el); };
+  P.rewatch=()=>{ obs.forEach(p=>{ p.enter.disconnect(); p.leave.disconnect(); }); obs.clear(); $$('.sa').forEach(watch); };
   $$('.sa').forEach(watch);
   /* el juego genera contenido nuevo: se observa también */
   new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{ if(n.nodeType!==1) return;
     [n,...n.querySelectorAll('*')].forEach(el=>{ if(el.matches&&el.matches(ITEMS)&&!el.classList.contains('sa')){ el.classList.add('sa','sa-i'); watch(el); } });
-  }))).observe($('#webview')||document.body,{childList:true,subtree:true});
+  }))).observe(document.body,{childList:true,subtree:true});
   /* títulos: se vuelven a animar al regresar */
   const tIO=new IntersectionObserver(es=>es.forEach(en=>{ const s=en.target.closest('.pg'); if(!s) return;
     if(en.isIntersecting){ if(!s.classList.contains('play')){ s.classList.add('play'); } }
@@ -74,10 +81,11 @@ function swap(i){
   window.dispatchEvent(new Event('scroll'));
 }
 P.cur=()=>curSec;
-P.showSection=(i,instant)=>{
+/* telón de color con el número y el título; cb cambia la página mientras tapa */
+P.curtain=(i,cb)=>{
   i=Math.max(0,Math.min(N-1,i));
-  if(instant||reduce||P.mode()!=='web'){ swap(i); return; }
-  if(i===curSec&&!curtain.hidden) return;
+  if(reduce){ cb(); return; }
+  if(!curtain.hidden) return;
   const s=sections[i];
   curtain.style.setProperty('--cacc',accOf(s)); curtain.style.setProperty('--cx',cx); curtain.style.setProperty('--cy',cy);
   curtain.classList.toggle('light',s.id==='fin');
@@ -85,8 +93,14 @@ P.showSection=(i,instant)=>{
   $('.ct-k',curtain).textContent=i===0?'Portada':i===N-1?'Cierre de la revista':'Subtema '+i+' de 5';
   $('.ct-t',curtain).textContent=i===0?'Un respiro para tu mente':s.dataset.label;
   curtain.hidden=false; curtain.classList.remove('close'); void curtain.offsetWidth; curtain.classList.add('open');
-  setTimeout(()=>{ swap(i); curtain.classList.remove('open'); curtain.classList.add('close'); },950);
+  setTimeout(()=>{ cb(); curtain.classList.remove('open'); curtain.classList.add('close'); },950);
   setTimeout(()=>{ curtain.hidden=true; curtain.classList.remove('close'); },1600);
+};
+P.showSection=(i,instant)=>{
+  i=Math.max(0,Math.min(N-1,i));
+  if(instant||reduce||P.mode()!=='web'){ swap(i); return; }
+  if(i===curSec&&!curtain.hidden) return;
+  P.curtain(i,()=>swap(i));
 };
 document.body.classList.add('paged');
 { const k=sections.findIndex(s=>'#'+s.id===location.hash); swap(k>0?k:0); }

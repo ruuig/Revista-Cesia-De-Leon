@@ -38,7 +38,10 @@ function go(i){
   if(mode==='web'){ if(window.Pulso&&window.Pulso.showSection) window.Pulso.showSection(i); else sections[i].scrollIntoView({block:'start'}); }
   else { cur=i; renderBook(); }
 }
-document.addEventListener('click',e=>{ const a=e.target.closest('[data-go]'); if(a&&!sheet.contains(a)){ e.preventDefault(); go(+a.dataset.go); } });
+document.addEventListener('click',e=>{ const a=e.target.closest('[data-go]'); if(a&&!sheet.contains(a)){ e.preventDefault(); const i=+a.dataset.go, P=window.Pulso;
+  /* en celular, el botón grande del final usa el telón de color, como antes */
+  if(mode==='flip'&&a.closest('.nextsec')&&P&&P.curtain&&window.matchMedia('(max-width: 760px)').matches) P.curtain(i,()=>P.flipTo(i));
+  else go(i); } });
 
 /* índice */
 $('#fab').addEventListener('click',()=>{
@@ -46,13 +49,14 @@ $('#fab').addEventListener('click',()=>{
 });
 
 /* ---------- Modo ---------- */
-function setMode(m){
+function setMode(m,auto){
   if(m===mode) return;
   mode=m; document.body.dataset.mode=m;
   $$('.seg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===m)));
   if(m==='flip'){ cur=currentWebIndex(); buildBook(); window.scrollTo(0,0); maybeTip(); }
   else { sections.forEach(s=>web.appendChild(s)); leavesWrap.innerHTML=''; leaves=[]; requestAnimationFrame(()=>{ if(window.Pulso&&window.Pulso.showSection) window.Pulso.showSection(cur,true); else sections[cur].scrollIntoView({block:'start'}); webLive(); lastSec=-1; onScrollFx(); }); }
-  
+  if(!auto) store.set('pulso-mode',m);
+  if(window.Pulso&&window.Pulso.rewatch) window.Pulso.rewatch();
   try{ history.replaceState(null,'',m==='flip'?'#revista':'#web'); }catch(e){}
   updateProgress();
 }
@@ -691,10 +695,14 @@ const seenHot=new Set();
 $$('.hot').forEach(h=>h.addEventListener('click',()=>{ seenHot.add(h.dataset.k); if(seenHot.size===6){ seenHot.add('done'); confetti(...at(h),60); } }));
 new MutationObserver(()=>{ if(brTxt.textContent.indexOf('Bien hecho')===0) confetti(...at(circle)); }).observe(brTxt,{childList:true,characterData:true,subtree:true});
 
-window.Pulso={$,$$,esc,confetti,sections,reduce,mode:()=>mode};
+window.Pulso={$,$$,esc,confetti,sections,reduce,mode:()=>mode,flipTo:i=>{ cur=Math.max(0,Math.min(N-1,i)); renderBook(true); }};
 /* ---------- Arranque ---------- */
 document.body.dataset.mode='web';
-/* toda la revista se lee en modo revista (se quitó el modo web) */
-{ const k=sections.findIndex(s=>'#'+s.id===location.hash); setMode('flip'); cur=k>0?k:0; lastCur=cur; renderBook(true); }
+/* celular: solo modo revista. Computadora: los dos, empieza con el último que se usó */
+const phoneMQ=window.matchMedia('(max-width: 760px)');
+const startMode=phoneMQ.matches||location.hash==='#revista'?'flip':(location.hash==='#web'?'web':store.get('pulso-mode'));
+if(startMode==='flip'){ const k=sections.findIndex(s=>'#'+s.id===location.hash); setMode('flip',true); cur=k>0?k:0; lastCur=cur; renderBook(true); }
+const toPhone=()=>{ if(phoneMQ.matches&&mode==='web') setMode('flip',true); };
+phoneMQ.addEventListener?phoneMQ.addEventListener('change',toPhone):phoneMQ.addListener(toPhone);
 updateProgress();
 })();
