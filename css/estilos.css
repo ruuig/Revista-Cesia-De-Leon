@@ -325,9 +325,9 @@ body[data-mode="web"] #flipview{display:none}
 .book.spread{width:calc(var(--pw) * 2)}
 .book-clip{position:relative;width:100%;height:100%}
 .book:not(.spread) .book-clip{overflow:hidden;border-radius:6px 16px 16px 6px}
-.leaves{position:absolute;top:0;left:0;width:var(--pw);height:100%;perspective:2400px}
+.leaves{position:absolute;top:0;left:0;width:var(--pw);height:100%;perspective:1700px}
 .book.spread .leaves{left:var(--pw)}
-.leaf{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.45,.05,.25,1)}
+.leaf{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform .95s cubic-bezier(.33,.12,.2,1)}
 .leaf.flipped{transform:rotateY(-180deg)}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:4px 14px 14px 4px;overflow:hidden;background:var(--paper);box-shadow:0 20px 40px -20px rgba(80,30,35,.45),0 2px 6px rgba(0,0,0,.06)}
 .face.front{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
@@ -519,3 +519,120 @@ body.paged #webview .pg{min-height:calc(100vh - var(--bar-h))}
 .curtain.open .ct-t{animation:ctIn .7s .4s cubic-bezier(.2,.9,.3,1) backwards}
 @keyframes ctIn{from{opacity:0;translate:0 40px}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ================= LECTURA ESTILO REVISTA ================= */
+:root{--f-read:"Literata", Georgia, "Times New Roman", serif}
+.bajada{font-family:var(--f-read);font-style:italic;font-size:clamp(19px,5cqi,24px);line-height:1.45;color:var(--ink-2);max-width:40ch;margin-top:14px;text-wrap:pretty}
+.story{background:var(--paper);border-radius:26px;padding:26px 20px 30px;box-shadow:0 2px 0 var(--line),0 18px 40px -28px rgba(59,42,46,.35);display:grid;gap:28px;position:relative}
+@container (min-width:880px){ .story{grid-template-columns:minmax(0,1fr) 290px;gap:44px;padding:44px 48px 48px} .story-side{position:sticky;top:calc(var(--bar-h) + 20px);align-self:start} }
+.story-body{font-family:var(--f-read);font-size:18px;line-height:1.72;color:var(--ink);max-width:62ch}
+.story-body p{margin:0 0 1em;text-wrap:pretty;hyphens:manual}
+.story-body p:last-child{margin-bottom:0}
+.story-body .lede{font-size:19.5px;line-height:1.65}
+.story-body .lede::first-letter{float:left;font-family:var(--f-display);font-weight:800;font-size:4.1em;line-height:.82;margin:.06em .12em 0 0;color:var(--acc,var(--rose-d))}
+.story-body em{font-style:italic}
+.story-body mark{background:linear-gradient(transparent 58%,color-mix(in srgb,var(--acc,var(--rose)) 24%,transparent) 58%);color:inherit;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.inter{font-family:var(--f-display);font-weight:800;font-size:clamp(22px,6cqi,27px);line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin:1.5em 0 .5em;display:flex;align-items:center;gap:10px}
+.inter::before{content:"";flex:none;width:22px;height:4px;border-radius:2px;background:var(--acc,var(--rose))}
+.inter:has(.step)::before{display:none}
+.inter .step{flex:none;width:32px;height:32px;border-radius:50%;background:var(--acc,var(--rose));color:var(--paper);display:grid;place-items:center;font-size:16px;letter-spacing:0}
+.trio{list-style:none;margin:0 0 1.1em;padding:0;display:grid;gap:10px;font-family:var(--f-body);font-size:16px;line-height:1.5}
+.trio li{background:var(--cream);border-radius:14px;padding:12px 14px}
+.trio b{display:block;font-family:var(--f-display);font-size:17px;color:var(--acc,var(--rose-d));margin-bottom:2px}
+.story-side{display:flex;flex-direction:column;gap:22px}
+.pull{margin:0;font-family:var(--f-read);font-style:italic;font-size:clamp(22px,6cqi,26px);line-height:1.3;color:var(--acc,var(--rose-d));border-top:3px solid var(--acc,var(--rose));padding-top:14px;position:relative;text-wrap:balance}
+.pull::before{content:"“";position:absolute;right:0;top:-6px;font-family:var(--f-display);font-size:80px;line-height:1;opacity:.18;font-style:normal}
+.fact{background:var(--cream);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:6px;font-size:15.5px;line-height:1.45}
+.fact-n{font-family:var(--f-display);font-weight:800;font-size:44px;line-height:.95;letter-spacing:-.03em;color:var(--acc,var(--rose-d))}
+.story-side .stat p{font-size:15.5px;line-height:1.45}
+.story-side .collage{padding-top:6px}
+/* resumen + práctica: puente entre la lectura y los juegos */
+.orga .ess{background:transparent;box-shadow:none;border-left:0;border-top:3px solid var(--acc,var(--rose));border-radius:0;padding:14px 2px 0}
+.orga .ess ol{font-size:16.5px;line-height:1.5;gap:8px}
+.orga .ess b{color:inherit;font-weight:700}
+.orga .onpage{background:var(--ink);color:var(--paper)}
+.orga .onpage .ess-t{color:var(--blush)}
+.op-h{font-size:14px;opacity:.8;margin:-4px 0 4px}
+.orga .op{background:rgba(255,250,245,.08);color:var(--paper)}
+.orga .op:hover{background:rgba(255,250,245,.16)}
+.orga .op b{color:var(--blush)}
+.orga .op small{color:#D9C6C8}
+
+/* ---- hoja más fluida ---- */
+.book{touch-action:pan-y}
+.leaf.turning,.leaf.dragging{will-change:transform}
+.leaf.turning .face *,.leaf.dragging .face *{animation-play-state:paused!important;transition:none!important}
+.leaf.turning .face,.leaf.dragging .face{box-shadow:0 10px 22px -14px rgba(80,30,35,.45)}
+.leaf.turning .deco,.leaf.dragging .deco,.leaf.turning canvas,.leaf.dragging canvas{visibility:hidden}
+
+/* ---- ajustes de lectura ---- */
+.story-body .lede::first-letter{font-family:"DM Serif Display",Georgia,serif;font-weight:400;font-size:4.4em;line-height:.78;margin:.08em .1em 0 0}
+.story-body mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--blush) 85%,transparent) 60%)}
+@container (max-width:520px){ .story{padding:22px 18px 26px} .story-body{font-size:17px;line-height:1.7} .story-body .lede{font-size:18px} }
+
+/* ================= ARTÍCULO CORTO Y VISUAL ================= */
+.story2{grid-template-columns:1fr}
+@container (min-width:880px){ .story2{grid-template-columns:minmax(0,1fr) 300px} }
+.story2 .story-body{max-width:none;font-family:var(--f-body)}
+.hook{font-family:"DM Serif Display",Georgia,serif;font-size:clamp(30px,8.4cqi,50px);line-height:1.08;letter-spacing:-.01em;color:var(--ink);margin:0 0 28px!important;text-wrap:balance;max-width:20ch}
+.hook mark{background:linear-gradient(transparent 62%,var(--blush) 62%) no-repeat 0 0/0% 100%;color:var(--acc,var(--rose-d));padding:0 .05em;transition:background-size 1s .35s cubic-bezier(.6,0,.2,1)}
+.hook.in mark,.leaf .hook mark{background-size:100% 100%}
+.thread{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:22px}
+.thread::before{content:"";position:absolute;left:23px;top:24px;bottom:24px;width:3px;border-radius:2px;background:repeating-linear-gradient(var(--acc,var(--rose)) 0 8px,transparent 8px 14px);transform-origin:top;scale:1 0;transition:scale 1.2s .2s cubic-bezier(.6,0,.2,1)}
+.story.in .thread::before,.leaf .thread::before{scale:1 1}
+.beat{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:start;position:relative}
+.bn{width:48px;height:48px;border-radius:50%;background:var(--acc,var(--rose));color:var(--paper);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:17px;letter-spacing:-.02em;box-shadow:0 0 0 6px var(--paper);position:relative;z-index:1}
+.beat.sa-i.in .bn{animation:bnPop .6s cubic-bezier(.3,1.6,.5,1) backwards;animation-delay:calc(var(--d,0ms) + 120ms)}
+@keyframes bnPop{from{scale:.3;rotate:-40deg}}
+.bt{font-family:var(--f-display);font-weight:800;font-size:clamp(21px,5.6cqi,26px);line-height:1.1;letter-spacing:-.02em;margin:10px 0 4px}
+.beat p{margin:0!important;font-size:17px;line-height:1.55;color:var(--ink-2);max-width:46ch}
+.math .bn{font-size:24px}
+.math .beat:last-child .bn{background:var(--ink)}
+/* miedo vs ansiedad */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.vs>div{border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.35}
+.vs-a{background:var(--mist);rotate:-1.5deg}
+.vs-b{background:var(--blush);rotate:1.5deg}
+.vs b{font-family:var(--f-display);font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.vs span{font-family:var(--f-hand);font-size:23px;line-height:1.05;color:var(--ink)}
+.vs small{font-size:13.5px;color:var(--ink-2)}
+/* stickers laterales */
+.sticker{position:relative;background:var(--cream);border-radius:20px;padding:22px 18px 18px;rotate:-2deg;display:flex;flex-direction:column;gap:6px;box-shadow:0 12px 24px -18px rgba(59,42,46,.5)}
+.sticker .tape{position:absolute;top:-10px;left:50%;translate:-50% 0;width:70px;height:20px;background:color-mix(in srgb,var(--acc,var(--rose)) 45%,transparent);rotate:3deg}
+.sk-n{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,8cqi,44px);line-height:.95;letter-spacing:-.03em;color:var(--acc,var(--rose-d))}
+.sticker p{font-size:15.5px;line-height:1.45;margin:0}
+.sticker.alert{background:var(--ink);color:var(--paper);rotate:2deg}
+.sticker.alert .sk-n{color:var(--blush);font-size:clamp(24px,6.5cqi,30px)}
+.story2 .stat{rotate:2deg}
+/* tira "Ahora, a practicar" */
+.orga{grid-template-columns:1fr!important}
+.orga .onpage{padding:16px 18px}
+.op-row{display:flex;flex-wrap:wrap;gap:8px}
+.op-row .op{grid-template-columns:auto 1fr;flex:1 1 220px}
+.op-row .op small{display:none}
+
+/* ---- hoja que se dobla: la geometría la calcula JS ---- */
+.leaf{transition:none!important}
+.book,.face.front{touch-action:pan-y}
+.bk-wrap{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
+.bk-wrap>.face{pointer-events:auto}
+.leaf.folding{transform:none!important}
+.leaf.folding .face{box-shadow:none}
+.leaf.folding .face.back{backface-visibility:visible;-webkit-backface-visibility:visible;transform-origin:0 0;border-radius:0}
+.leaf.folding .face.back::after{display:none}
+.leaf.folding .bk-wrap{filter:drop-shadow(calc(var(--ds,6px) * -.6) calc(var(--ds,6px) * .4) var(--ds,6px) rgba(59,42,46,.32))}
+.fx-cast{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:0}
+.fx-cast i,.fx-hl{position:absolute;left:0;top:0;transform-origin:0 0;display:block;pointer-events:none}
+.fx-cast i{background:linear-gradient(to bottom,rgba(59,42,46,.42),rgba(59,42,46,.14) 30%,rgba(59,42,46,0) 100%)}
+.fx-hl{z-index:30;display:none;background:linear-gradient(to bottom,rgba(59,42,46,.28) 0%,rgba(59,42,46,.06) 5%,rgba(255,255,255,.6) 14%,rgba(255,255,255,.18) 40%,rgba(255,255,255,0) 70%,rgba(59,42,46,.08) 100%)}
+.leaf.folding .fx-hl{display:block}
+
+/* ---- respiración: más contraste ---- */
+.breath p.help{background:rgba(255,250,245,.1);color:var(--paper);box-shadow:none;border:1px solid rgba(255,250,245,.18);font-size:15.5px;line-height:1.5;padding:14px 16px;border-radius:16px}
+.breath .src{color:#E8D9DB;font-size:14px}
+.breath .toggle button{font-size:15px}
+.breath .toggle button[aria-pressed="false"]{color:#F3E6E7}
+.circle-txt b{font-size:19px;max-width:6.5em;text-wrap:balance}
+/* ---- 5-4-3-2-1: video antes del juego ---- */
+.g54-video{display:flex;flex-direction:column;gap:10px;padding-bottom:6px;border-bottom:2px dashed var(--line)}
+.g54-go{font-family:var(--f-hand);font-size:24px;line-height:1;color:var(--acc,var(--rose-d));margin-top:4px}

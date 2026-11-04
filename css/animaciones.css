@@ -3,7 +3,6 @@
 .pg{--acc:var(--rose)}
 #portada{--acc:#D4636B}#p1{--acc:#5D7F8E}#p2{--acc:#D4636B}#p3{--acc:#4F7552}#p4{--acc:#A3404A}#p5{--acc:#9A6238}#fin{--acc:#F8A3A0}
 .kicker b{background:var(--acc)}
-.panel-h .tag{color:var(--acc)}
 .h-pg em{color:var(--acc);background-image:linear-gradient(transparent 64%,color-mix(in srgb,var(--acc) 26%,transparent) 64%);background-repeat:no-repeat;background-size:100% 100%;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .back .h-pg em{color:var(--blush)}
 .h-pg .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.12em;margin-bottom:-.12em}
@@ -66,7 +65,7 @@
 .cover-main .subs{grid-area:subs}
 @container (min-width:780px){.cover-main{grid-template-columns:1fr 1.05fr;grid-template-areas:"hd head" "subs head";align-items:start;column-gap:40px}}
 .theme-lbl{display:inline-block;background:var(--blush);border-radius:999px;padding:6px 18px 8px;font-family:var(--f-hand);font-size:26px;line-height:1;font-weight:700;transform:rotate(-2deg);animation:pop .7s .4s cubic-bezier(.3,1.7,.5,1) backwards}
-.ans{font-family:"DM Serif Display",Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(60px,18.5cqi,140px);letter-spacing:-.025em;line-height:.9;color:var(--ink)}
+.ans{font-family:"DM Serif Display",Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(54px,16cqi,108px);white-space:nowrap;letter-spacing:-.025em;line-height:.9;color:var(--ink)}
 .ans span{display:inline-block;animation:drop .8s cubic-bezier(.3,1.5,.5,1) backwards;animation-delay:calc(.45s + var(--i) * 60ms)}
 .dek b{color:var(--rose-d)}
 .head-wrap{position:relative;width:100%;max-width:440px;margin:8px auto 0;padding-top:16%;animation:rise 1s .3s cubic-bezier(.2,.8,.2,1) backwards}
@@ -121,7 +120,7 @@
 .fab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .progress{transition:width .2s,background .4s}
 .hot{transition:transform .2s}.hot:hover{transform:scale(1.15)}
-.leaf.turning .face::before{content:"";position:absolute;inset:0;z-index:20;pointer-events:none;background:linear-gradient(90deg,rgba(59,42,46,.32),rgba(59,42,46,0) 70%);animation:shade .9s ease-in-out both}
+
 @keyframes shade{0%,100%{opacity:0}50%{opacity:1}}
 .book.spread .book-clip::after{content:"";position:absolute;top:8px;bottom:8px;right:-7px;width:7px;border-radius:0 5px 5px 0;background:repeating-linear-gradient(90deg,var(--paper) 0 1px,var(--line) 1px 2px)}
 

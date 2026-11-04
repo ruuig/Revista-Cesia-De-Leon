@@ -26,7 +26,7 @@ sections.forEach((s,i)=>{
 
 /* ========== 2. Animaciones de scroll (se repiten) ========== */
 const BLOCKS='.rv, .nextsec';
-const ITEMS=['.rc','.body > p','.lead','.ess li','.op','.photo','.video','.stat','.help','.habit','.chip','.cmp li','.fcard','.sub','.vlabel','.note','.mc','.dots button','.popt','.sort-card','.kicker','.ws-list li','.letter p','.refs li','.attn','.by .pill','.theme-lbl','.dek'].join(',');
+const ITEMS=['.beat','.hook','.sticker','.vs > div','.rc','.body > p','.lead','.ess li','.op','.photo','.video','.stat','.help','.habit','.chip','.cmp li','.fcard','.sub','.vlabel','.note','.mc','.dots button','.popt','.sort-card','.kicker','.ws-list li','.letter p','.refs li','.attn','.by .pill','.theme-lbl','.dek'].join(',');
 $$(BLOCKS).forEach(el=>el.classList.add('sa'));
 $$(ITEMS).forEach(el=>el.classList.add('sa','sa-i'));
 /* escalonado entre hermanos */
@@ -89,7 +89,7 @@ P.showSection=(i,instant)=>{
   setTimeout(()=>{ curtain.hidden=true; curtain.classList.remove('close'); },1600);
 };
 document.body.classList.add('paged');
-swap(0);
+{ const k=sections.findIndex(s=>'#'+s.id===location.hash); swap(k>0?k:0); }
 
 /* ========== 4. Parallax suave (fondos y decoración) ========== */
 if(!reduce){

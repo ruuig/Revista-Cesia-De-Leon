@@ -89,22 +89,119 @@ function layoutBook(){
   book.style.setProperty('--pw',Math.round(pw)+'px'); book.style.setProperty('--ph',Math.round(ph)+'px');
   book.classList.toggle('spread',spread);
 }
-let zTimer=null, lastCur=0;
+let lastCur=0, showTimer=0;
+/* =====================================================================
+   HOJA QUE SE DOBLA (como una revista de verdad)
+   La esquina de la página C se mueve a un punto P. La línea del doblez es
+   la mediatriz entre C y P: lo que queda del lado de C se dobla encima y
+   enseña su reverso, reflejado sobre esa línea. Todo en 2D: clip-path para
+   recortar, matrix() para reflejar y degradados para la curva y la sombra.
+   ===================================================================== */
+const folds=new Map();           // hojas animándose -> {raf}
+const ease={ io:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, out:t=>1-Math.pow(1-t,3) };
+const pageSize=()=>[leavesWrap.offsetWidth, leavesWrap.offsetHeight];
+function fxOf(l){
+  if(l._fx) return l._fx;
+  const front=l.querySelector('.face.front'), back=l.querySelector('.face.back');
+  const wrap=document.createElement('div'); wrap.className='bk-wrap'; back.before(wrap); wrap.appendChild(back);
+  const cast=document.createElement('div'); cast.className='fx-cast'; cast.innerHTML='<i></i>'; wrap.before(cast);
+  const hl=document.createElement('i'); hl.className='fx-hl'; back.appendChild(hl);
+  return l._fx={front,back,wrap,cast,ci:cast.firstChild,hl};
+}
+/* parte del rectángulo de la página que queda de un lado de la línea (M, n) */
+function half(W,H,M,n,pos){
+  const pts=[[0,0],[W,0],[W,H],[0,H]], out=[];
+  const sd=q=>((q[0]-M[0])*n[0]+(q[1]-M[1])*n[1])*(pos?1:-1);
+  for(let i=0;i<4;i++){
+    const p=pts[i], q=pts[(i+1)%4], sp=sd(p), sq=sd(q);
+    if(sp>=0) out.push(p);
+    if((sp>=0)!==(sq>=0)){ const t=sp/(sp-sq); out.push([p[0]+(q[0]-p[0])*t, p[1]+(q[1]-p[1])*t]); }
+  }
+  return out;
+}
+const poly=pts=>pts.length<3?'polygon(0 0,0 0,0 0)':'polygon('+pts.map(p=>p[0].toFixed(1)+'px '+p[1].toFixed(1)+'px').join(',')+')';
+/* el papel no se estira: la esquina no puede alejarse más de lo que mide la hoja */
+function constrain(P,cy,W,H){
+  let [x,y]=P; y=cy?Math.min(y,H):Math.max(y,0);
+  const s1=[0,cy], s2=[0,H-cy], dg=Math.hypot(W,H);
+  let d=Math.hypot(x-s1[0],y-s1[1]); if(d>W){ x=s1[0]+(x-s1[0])*W/d; y=s1[1]+(y-s1[1])*W/d; }
+  d=Math.hypot(x-s2[0],y-s2[1]); if(d>dg){ x=s2[0]+(x-s2[0])*dg/d; y=s2[1]+(y-s2[1])*dg/d; }
+  return [x,y];
+}
+/* rota una tira para que su eje +y apunte en la dirección v y su borde superior quede en o */
+const strip=(el,o,v,len,hgt)=>{ const phi=Math.atan2(-v[0],v[1]); el.style.width=len+'px'; el.style.height=hgt+'px';
+  el.style.transform=`translate(${o[0].toFixed(1)}px,${o[1].toFixed(1)}px) rotate(${phi}rad) translate(${(-len/2).toFixed(1)}px,0)`; };
+function setFold(l,P,cy){
+  const [W,H]=pageSize(), fx=fxOf(l);
+  l._P=P; l._cy=cy; l.classList.add('folding');
+  const dx=W-P[0], dy=cy-P[1], dist=Math.hypot(dx,dy);
+  if(dist<0.5){ fx.front.style.clipPath=''; fx.wrap.style.visibility='hidden'; fx.cast.style.opacity='0'; return; }
+  fx.wrap.style.visibility='';
+  const n=[dx/dist,dy/dist], M=[(W+P[0])/2,(cy+P[1])/2];
+  fx.front.style.clipPath=poly(half(W,H,M,n,false));
+  const folded=half(W,H,M,n,true);
+  fx.cast.style.clipPath=poly(folded);
+  /* reverso: el punto (u,v) del reverso va a R(F(u,v)); F voltea en x, R refleja sobre el doblez */
+  const nx=n[0], ny=n[1], k=2*(M[0]*nx+M[1]*ny);
+  const A=-(1-2*nx*nx), B=2*nx*ny, Cc=-2*nx*ny, D=1-2*ny*ny;
+  const E=W*(1-2*nx*nx)+k*nx, F=-2*W*nx*ny+k*ny;
+  fx.back.style.transform=`matrix(${A},${B},${Cc},${D},${E},${F})`;
+  fx.back.style.clipPath=poly(folded.map(p=>[W-p[0],p[1]]));
+  /* curva y sombra: más fuertes a media vuelta */
+  const pr=Math.min(1,dist/(2*W)), soft=Math.sin(pr*Math.PI), len=Math.hypot(W,H)*3;
+  strip(fx.hl,[W-M[0],M[1]],[-nx,ny],len,Math.max(40,Math.min(dist*.55,W*.6)));
+  fx.hl.style.opacity=(.35+.65*soft).toFixed(3);
+  strip(fx.ci,M,n,len,Math.max(30,Math.min(dist*.5,W*.45)));
+  fx.cast.style.opacity=(.25+.75*soft).toFixed(3);
+  fx.wrap.style.setProperty('--ds',(4+10*soft).toFixed(1)+'px');
+}
+function clearFold(l){
+  l.classList.remove('folding','turning'); l._P=null; l._cy=null; l._peek=false;
+  const fx=l._fx; if(!fx) return;
+  fx.front.style.clipPath=''; fx.back.style.transform=''; fx.back.style.clipPath='';
+  fx.wrap.style.visibility=''; fx.cast.style.opacity='0';
+}
+function cancelFold(l){ const st=folds.get(l); if(st){ cancelAnimationFrame(st.raf); folds.delete(l); } }
+function animFold(l,from,to,cy,dur,fn,delay,arc,done){
+  cancelFold(l); l.classList.add('turning');
+  const [W,H]=pageSize();
+  if(reduce){ done(); return; }
+  let t0=null; const st={raf:0};
+  const step=ts=>{
+    if(t0===null) t0=ts+delay;
+    const t=Math.min(1,Math.max(0,(ts-t0)/dur)), e=fn(t);
+    const P=[from[0]+(to[0]-from[0])*e, from[1]+(to[1]-from[1])*e+arc*Math.sin(Math.PI*e)];
+    setFold(l,constrain(P,cy,W,H),cy);
+    if(t<1) st.raf=requestAnimationFrame(step); else { folds.delete(l); done(); }
+  };
+  st.raf=requestAnimationFrame(step); folds.set(l,st);
+}
+function renderBookZ(){ leaves.forEach((l,i)=>{ if(!folds.has(l)&&!l._P) l.style.zIndex=(i<cur? i+1 : 2*N-i); }); }
 function renderBook(instant){
-  const moving=new Set(); const a=Math.min(lastCur,cur), b=Math.max(lastCur,cur);
-  for(let i=a;i<b;i++) moving.add(i);
+  const fwd=cur>lastCur; const a=Math.min(lastCur,cur), b=Math.max(lastCur,cur);
+  const moving=[]; for(let i=a;i<b;i++) moving.push(i);
+  if(!fwd) moving.reverse();
   leaves.forEach((l,i)=>{
-    if(instant) l.style.transition='none';
     l.classList.toggle('flipped',i<cur);
-    l.style.zIndex = moving.has(i)&&!instant ? 500+(cur>lastCur? i : N-i) : (i<cur? i+1 : 2*N-i);
+    if(instant){ cancelFold(l); clearFold(l); }
     l.setAttribute('aria-hidden',String(i!==cur));
     l.inert = i!==cur;
   });
-  if(instant){ void leavesWrap.offsetWidth; leaves.forEach(l=>l.style.transition=''); }
-  else moving.forEach(i=>{ const l=leaves[i]; l.classList.add('turning'); setTimeout(()=>l.classList.remove('turning'),950); });
-  pageShown(cur);
-  clearTimeout(zTimer);
-  zTimer=setTimeout(()=>leaves.forEach((l,i)=>l.style.zIndex=(i<cur? i+1 : 2*N-i)),950);
+  if(!instant){
+    const [W,H]=pageSize();
+    moving.forEach((i,k)=>{
+      const l=leaves[i]; l.style.zIndex=500+(fwd? i : N-i);
+      const toLeft=i<cur, fresh=!l._P||l._peek, cy=(l._P&&l._cy!=null)?l._cy:H;
+      const from=(l._P&&!l._peek)?l._P:(l._P&&l._peek?l._P:(toLeft?[W,cy]:[-W,cy]));
+      const to=toLeft?[-W,cy]:[W,cy];
+      const left=Math.abs(to[0]-from[0])/(2*W);
+      l._peek=false;
+      animFold(l,from,to,cy, fresh?1050:Math.round(260+700*left), fresh?ease.io:ease.out, k*150,
+        fresh?(cy?-1:1)*H*.16:0, ()=>{ clearFold(l); renderBookZ(); });
+    });
+  } else renderBookZ();
+  clearTimeout(showTimer); const shown=cur;
+  if(instant) pageShown(shown); else showTimer=setTimeout(()=>requestAnimationFrame(()=>pageShown(shown)),560);
   lastCur=cur;
   const f=leaves[cur]&&leaves[cur].querySelector('.face.front'); if(f) f.scrollTop=0;
   $('#f-name').textContent=sections[cur].dataset.label;
@@ -121,13 +218,70 @@ document.addEventListener('keydown',e=>{
   if(e.target.matches&&e.target.matches('input')) return;
   if(e.key==='ArrowRight') go(cur+1); if(e.key==='ArrowLeft') go(cur-1);
 });
-/* deslizar */
-let sx=0,sy=0,sOk=false;
-book.addEventListener('touchstart',e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; sOk=!e.target.closest('[data-noswipe]'); },{passive:true});
-book.addEventListener('touchend',e=>{
-  if(!sOk) return; const t=e.changedTouches[0]; const dx=t.clientX-sx, dy=t.clientY-sy;
-  if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.5){ movedRecently=true; setTimeout(()=>movedRecently=false,350); dx<0?go(cur+1):go(cur-1); }
-},{passive:true});
+/* ---- arrastrar la esquina (dedo en toda la hoja; ratón desde las esquinas) ---- */
+let drag=null;
+const CZ=()=>Math.min(110,pageSize()[0]*.28);
+book.addEventListener('pointerdown',e=>{
+  if(mode!=='flip'||e.button>0||e.target.closest('[data-noswipe]')) return;
+  const r=leavesWrap.getBoundingClientRect(), W=r.width, H=r.height, x=e.clientX-r.left, y=e.clientY-r.top;
+  const mouse=e.pointerType==='mouse'; let dir=0;
+  if(mouse){
+    const z=CZ(), nearY=y<z||y>H-z;
+    if(nearY&&x>W-z&&x<=W+6) dir=1; else if(nearY&&x<-W+z&&x>=-W-6) dir=-1;
+    if(!dir) return;
+  }
+  drag={id:e.pointerId,sx:e.clientX,sy:e.clientY,x,y,W,H,mouse,dir,started:false,leaf:null};
+});
+function startDrag(e){
+  const d=drag, i=d.dir>0?cur:cur-1;
+  if(i<0||i>=N||(d.dir>0&&cur>=N-1)){ drag=null; return false; }
+  const l=leaves[i]; cancelFold(l); l.style.zIndex=600; l.classList.add('turning');
+  d.leaf=l; d.started=true; d.cy=d.y<d.H/2?0:d.H;
+  d.P0=l._peek&&l._P?[...l._P]:(d.dir>0?[d.W,d.cy]:[-d.W,d.cy]); l._peek=false;
+  if(d.mouse) d.P0=[d.dir>0?d.x:d.x,d.y];
+  try{ book.setPointerCapture(e.pointerId); }catch(_){}
+  return true;
+}
+window.addEventListener('pointermove',e=>{
+  if(!drag||e.pointerId!==drag.id){ hoverPeek(e); return; }
+  const d=drag, dx=e.clientX-d.sx, dy=e.clientY-d.sy;
+  if(!d.started){
+    if(!d.mouse){
+      if(Math.abs(dx)<10||Math.abs(dx)<Math.abs(dy)*1.2){ if(Math.abs(dy)>14) drag=null; return; }
+      d.dir=dx<0?1:-1;
+    } else if(Math.hypot(dx,dy)<3) return;
+    if(!startDrag(e)) return;
+  }
+  /* con el dedo la esquina sube un poco al avanzar, como al agarrar papel */
+  const prog=Math.min(1,Math.abs(dx)/(2*d.W));
+  const lift=d.mouse?0:(d.cy?-1:1)*d.H*.14*Math.sin(prog*Math.PI);
+  const P=[d.P0[0]+dx*(d.mouse?1:1.15), d.P0[1]+(d.mouse?dy:dy*.5)+lift];
+  setFold(d.leaf,constrain(P,d.cy,d.W,d.H),d.cy);
+});
+function endDrag(e,cancel){
+  if(!drag||(e&&e.pointerId!==drag.id)) return; const d=drag; drag=null;
+  if(!d.started){
+    /* clic en la esquina con el ratón: pasa la página */
+    if(d.mouse&&!cancel) go(cur+d.dir);
+    return;
+  }
+  movedRecently=true; setTimeout(()=>movedRecently=false,350);
+  const l=d.leaf, P=l._P||d.P0;
+  const p=(d.W-P[0])/(2*d.W), prog=d.dir>0?p:1-p;
+  if(!cancel&&prog>.22){ cur=Math.max(0,Math.min(N-1,cur+d.dir)); renderBook(false); }
+  else animFold(l,P,d.dir>0?[d.W,d.cy]:[-d.W,d.cy],d.cy,Math.round(200+520*prog),ease.out,0,0,()=>{ clearFold(l); renderBookZ(); });
+}
+window.addEventListener('pointerup',e=>endDrag(e,false));
+window.addEventListener('pointercancel',e=>endDrag(e,true));
+/* ---- con el ratón, la esquina se levanta un poquito al acercarse ---- */
+function hoverPeek(e){
+  if(mode!=='flip'||e.pointerType!=='mouse'||drag||folds.size) return;
+  const l=leaves[cur]; if(!l) return;
+  const r=leavesWrap.getBoundingClientRect(), W=r.width, H=r.height, x=e.clientX-r.left, y=e.clientY-r.top;
+  const z=CZ(), ex=W-x, ey=H-y, inZ=cur<N-1&&ex>=-6&&ey>=-6&&ex<z&&ey<z;
+  if(inZ){ const kk=1-Math.max(ex,ey)/z, amt=22+46*kk; l.style.zIndex=600; setFold(l,[W-amt,H-amt*.8],H); l._peek=true; }
+  else if(l._peek){ clearFold(l); renderBookZ(); }
+}
 window.addEventListener('resize',()=>{ if(mode==='flip') layoutBook(); });
 function maybeTip(){
   if(store.get('pulso-tip')) return; store.set('pulso-tip','1');
@@ -253,7 +407,7 @@ $$('#br-mode button').forEach(b=>b.addEventListener('click',()=>{
   $$('#br-mode button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
   brMode=b.dataset.v; $('#br-help').textContent=BR[brMode].help; stopBr();
 }));
-function stopBr(){ brOn=false; clearTimeout(brT); clearInterval(brTick); circle.style.transitionDuration='1.2s'; circle.style.transform='scale(.45)'; brTxt.textContent='Listo cuando tú lo estés'; brCount.textContent=''; brBtn.textContent='Empezar'; }
+function stopBr(){ brOn=false; clearTimeout(brT); clearInterval(brTick); circle.style.transitionDuration='1.2s'; circle.style.transform='scale(.45)'; brTxt.textContent='Toca Empezar'; brCount.textContent=''; brBtn.textContent='Empezar'; }
 function runPhase(i){
   if(!brOn) return;
   const ph=BR[brMode].ph; if(i>=ph.length){ brRound++; i=0; if(brRound>=6){ stopBr(); brTxt.textContent='Bien hecho. ¿Cómo te sientes?'; return; } }

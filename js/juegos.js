@@ -24,9 +24,8 @@ sections.forEach((s,si)=>{
     return `<button type="button" class="op" data-to="${h.id}"><b>${no}</b>${esc(h.textContent.replace(no,'').trim())}${kind?`<small>${esc(kind)}</small>`:''}</button>`;
   });
   const box=document.createElement('div'); box.className='orga rv';
-  box.innerHTML=`<div class="ess"><p class="ess-t">Lo esencial</p><ol>${ess.map(x=>`<li>${x}</li>`).join('')}</ol></div>
-    <nav class="onpage" aria-label="En esta página"><p class="ess-t">En esta página</p>${items.join('')}</nav>`;
-  const tb=s.querySelector('.title-block'); tb.after(box);
+  box.innerHTML=`<nav class="onpage" aria-label="Para practicar en esta sección"><p class="ess-t">Ahora, a practicar ↓</p><div class="op-row">${items.join('')}</div></nav>`;
+  const st=s.querySelector('.story')||s.querySelector('.title-block'); st.after(box);
 });
 document.addEventListener('click',e=>{
   const b=e.target.closest('.op'); if(!b) return;
